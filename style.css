@@ -17,3 +17,25 @@ p {
   color: #FFF0DC;      
   position: relative;
 }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 10%;
+  gap: 40px;
+}
+
+.feature-text {
+  flex: 1;
+}
+
+.feature-image {
+  flex: 1;
+  text-align: center;
+}
