@@ -7,3 +7,13 @@ h1 {
 p {
   color: #FFF0DC;
 }
+
+.hero {
+  height: 30vh; // 30 percent of height
+  background: url("Collectable.gif") no-repeat center;
+  display: flex;
+  justify-content: center;   // Center horizontally
+  text-align: center;
+  color: #FFF0DC;      
+  position: relative;
+}
