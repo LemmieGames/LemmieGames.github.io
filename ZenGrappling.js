@@ -66,7 +66,7 @@ document.querySelectorAll(".game-inner video").forEach(videoPlayer => {
 
 
 
-// Position background below hero
+// Position background below hero `
 const hero = document.querySelector(".hero");
 const body = document.body;
 
