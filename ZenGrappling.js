@@ -76,6 +76,6 @@ function UpdateBackground() {
 }
 
 // Check height on load and resize
-//UpdateBackground();
+UpdateBackground();
 window.addEventListener("resize", UpdateBackground);
 window.addEventListener("load", UpdateBackground);
