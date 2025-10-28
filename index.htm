@@ -148,7 +148,7 @@ The powerups use inheritance to reuse common functionality such as cooldowns and
 One issue I ran into was that the game would hang for a frame when a bomb exploded, which was made worse when multiple bombs chained explosions. This was because I was duplicating the explosion texture so that the explosion shader didnt impact all instances within the scene, and then creating a new noise texture to ensure all the explosions looked unique. Doing this, especially creating the noise texture, caused the game to lag. The way I solved this was creating an explosion material poole. By creating a set number of explosion materials at the start, I could use a manager class to return unused materials and as explosions only lasted a short duration, they could be reused quickly. This stopped the need for generating new textures while still looking unique as they all are assigned a different noise texture from the start.
 <br><br>
 <span class="highlight">Juicy Walls:</span><br> 
-Though not a unique concept, the walls were created by creating a pixel art texture in blockbench. Then, using an existing normalmap, I sampled colours and created a normalmap from my original texture. This makes the wall look significantly more interesting, not just flat, paired with an out bounce easing and ascending sound effects for creating them, the satisfaction of using the wall powerup increased dramatically.
+Though not a unique concept, the walls were created by creating a pixel art texture in blockbench. Then, using an existing normalmap, I sampled colours and manually created a normalmap version from my original texture. This makes the wall look significantly more interesting, not just flat, paired with an out bounce easing and ascending sound effects for creating them, the satisfaction of using the wall powerup increased dramatically.
 	<br><br>		
 			<span class="highlight">Portals:</span><br> 
 Each object that can teleport using a portal has an ITeleportable interface with a function for teleporting when it hits a portal. This may sound like overkill; to begin with the portal handled teleporting of all objects that hit it but this quickly became too large of a class due to the surprising amount of unique ways I needed to handle teleporting. The player should be sent out the exiting teleporter with enough speed to not still be touching it even if holding the other direction; bullets velocity need to be flipped depending on the difference in portals directions; the growth ray means that some objects are too big to fit in the portal, and objects like the punch or grapple need to keep track of how far they have travelled even when travelling through multiple portals. The grapple has a stack of portals travelled through and calculates the distance based on all the portals travelled through, while also creating a new Line2D for each one to still render the rope at each point. That way when it retracts it can retract back through each portal rather than just returning to the player.<br> 
@@ -418,8 +418,13 @@ WIP
      <div class="game-outer">
 	
 		<div class="game-inner">
-		 <p>It's literally PAUL KART. <br>
-		 <!-- <span class="highlight">Paul Kart</span> <br> -->
+		 <p>A Mario Kart inspired racing game made in a team of 3 on PS5 devkits using a University in-house engine. <br>
+		 <br>
+		 <span class="highlight">Features I created:</span> <br>
+		 • Track system with interactable elements.<br>
+		 • Created and implemented models.<br>
+		 • Implemented sound effects and music. <br>
+		 • Results screen <br>
 
 	  <button class="overlay-button" data-target="#overlay-pk">Learn more...</button>
 	  </p>
@@ -450,7 +455,7 @@ WIP
 				<div>
 					<p>
 	<span class="highlight"> Contributions:</span><br> 
-				Developed in a team of three programmers, I was responsible for creation of the tracks (including obstacles, itemboxes, boostpads etc), as well as all models (besides from the police car model), player animations, race results screen, and implementing sound effects + music.
+				Developed in a team of three programmers, I was responsible for creation of the tracks (including obstacles, itemboxes, boostpads etc), as well as all models (besides from the police car model), player steering animations, race results screen, and implementing sound effects + music.
 				<br><br>
 				<span class="highlight"> Context:</span><br> 
 A university project developed on PS5 devkits using Abertay's in-house engine Skateboard (Entity component system C++).
