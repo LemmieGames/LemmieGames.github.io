@@ -28,8 +28,10 @@
 			• Complex player movement (pulling, swinging, swimming, walljumping, sliding).<br>
 			• Screen wrap and room-based camera system. <br> 
 			• Dialogue systems and many shaders. <br>
-			• Springs, gliders, and many other movement based objects.
+			• Springs, gliders, and many other movement based objects. <br>
+			<button class="overlay-button" data-target="#overlay-zg">Learn more...</button>
 	  </p>
+
 	  <div class="gif-controls">
 	  <button class="gif-button pressed" id="0">
 		<img src="ZG/ZenGrapplingBtn0.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
@@ -48,7 +50,45 @@
       <source src="ZG/PortfolioZG0.mp4" type="video/mp4">
 		</div>
 		</div>
+		
+		
+		<div class="overlay" id="overlay-zg">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Zen Grappling</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight"> Contributions:</span><br> 
+				A solo project, all shown artwork and code is my own. 
+				<br><br>
+				<span class="highlight"> Context:</span><br> 
+Originally a university project developed in SFML C++, I recreated the project in Godot C# due to familiarity to ease development, what you see now is the further developed version.
+			<br><br>
+			<span class="highlight">Player state:</span><br> 
+The player character uses a state machine within a PlayerState class to determine how the player should move given the current context, such as switching to swimming controls if entering a water area, which gives me the control to manage state changes based on the current state. One thing I would change if I had to do it over is use classes to represent each state rather than an enum. This would mean I could further separate the movement logic of each state and the state change logic rather than having it in one class, improving readability and making the state system more scalable.
+			<br><br>
+<span class="highlight"> Shaders:</span><br> 
+Zen Grappling uses multiple shaders throughout to create more dynamic and interesting visuals. <br>
+The grass shader animates grass tiles back and forth to simulate wind, with an x offset based on world position so wind travels over time. The players collision box is drawn to a separate texture each frame with the opacity depending on speed and the colour depending on the sign of the horizontal velocity, which is also faded out each frame. This texture can then be used by the grass shader to know if it should be pushed down by the player, in what direction, and by what magnitude depending on how recently the player moved there and their speed. <br>
+There is also a tree shader that shows the players silhouette when behind it. The way this works is the players sprite (with skew, rotation, and scaling) is drawn to a separate texture, which is then passed into a tree leaves shader and each tree in the room checks if the players colour is in front of it. If so then change the colour to black to show the player silhouette. It was done this way as other things can overlap the player so if it was done on the player then silhouettes would be drawn in the grass. <br>
+	<br>
+<span class="highlight"> NPC Movement:</span><br> 	
+For the fox NPC seen in the first video, the movement is based on my previous movements saved to a text file. It works by saving relevant data (such as position, sprite frame, scale, rotation etc) to a queue every set timeframe, and then interpolating between points each frame to recreate the movement. <br>
+This allows me to create more intricate, realistic movement for NPCs, such as a chase scene, and could also be used to recreate player movement for replays or ghosts in a time trial setting. <br>
+ Initially i wanted to just record the inputs and the time of those inputs as then i could recreate movement with less filesize, but as Godot's physics engine is non-deterministic, meaning the same inputs do not always yield the same results, it was not reliable to do it that way. I can still reduce filesizs by increasing the time gap between recordings at the expence of accuracy. 
+
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
      </section>
+	 
+	 
   
     <section class="game">
    <div class="game-topper">
@@ -65,8 +105,8 @@
 		 • Movement: portals, grappling hook, dash.<br>
 		 • Attacks: suckerpunch, wall-spawning bullet, 
 		 bomb, bouncing bullet and mortar (arcing) bullet.<br><br>
-		Powerups are designed with combinations in mind, allowing for creative expression when playing.
-	  
+		Powerups are designed with combinations in mind, allowing for creative expression when playing. <br>
+	  <button class="overlay-button" data-target="#overlay-tt">Learn more...</button>
 	  </p>
 	  <div class="gif-controls">
 	  <button class="gif-button pressed" id="0">
@@ -86,11 +126,115 @@
       <source src="Tank/TankVid0.mp4" type="video/mp4">
 		</div>
 		</div>
+		
+				<div class="overlay" id="overlay-tt">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Toppling Tanks</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight">Contributions:</span><br> 
+				A solo project, all shown artwork and code is my own. 
+				<br><br>
+
+<span class="highlight">Context:</span><br> 
+Originally a university project developed in Unreal C++, I recreated the project in Godot C#.
+<br><br>
+<span class="highlight">Powerup System:</span><br> 
+The powerups use inheritance to reuse common functionality such as cooldowns and references to the tank using it within a BasePowerup class. Then when I want to add a new powerup I only have to create the unique features with the cooldown timer and functions for pressing and releasing the powerup button already handled.
+<br><br>
+<span class="highlight">Bomb Explosion Pooling:</span><br> 
+One issue I ran into was that the game would hang for a frame when a bomb exploded, which was made worse when multiple bombs chained explosions. This was because I was duplicating the explosion texture so that the explosion shader didnt impact all instances within the scene, and then creating a new noise texture to ensure all the explosions looked unique. Doing this, especially creating the noise texture, caused the game to lag. The way I solved this was creating an explosion material poole. By creating a set number of explosion materials at the start, I could use a manager class to return unused materials and as explosions only lasted a short duration, they could be reused quickly. This stopped the need for generating new textures while still looking unique as they all are assigned a different noise texture from the start.
+<br><br>
+<span class="highlight">Juicy Walls:</span><br> 
+Though not a unique concept, the walls were created by creating a pixel art texture in blockbench. Then, using an existing normalmap, I sampled colours and created a normalmap from my original texture. This makes the wall look significantly more interesting, not just flat, paired with an out bounce easing and ascending sound effects for creating them, the satisfaction of using the wall powerup increased dramatically.
+	<br><br>		
+			<span class="highlight">Portals:</span><br> 
+Each object that can teleport using a portal has an ITeleportable interface with a function for teleporting when it hits a portal. This may sound like overkill; to begin with the portal handled teleporting of all objects that hit it but this quickly became too large of a class due to the surprising amount of unique ways I needed to handle teleporting. The player should be sent out the exiting teleporter with enough speed to not still be touching it even if holding the other direction; bullets velocity need to be flipped depending on the difference in portals directions; the growth ray means that some objects are too big to fit in the portal, and objects like the punch or grapple need to keep track of how far they have travelled even when travelling through multiple portals. The grapple has a stack of portals travelled through and calculates the distance based on all the portals travelled through, while also creating a new Line2D for each one to still render the rope at each point. That way when it retracts it can retract back through each portal rather than just returning to the player.<br> 
+Portals attached to walls can be enlarged when a growth ray hits the wall, and any object travelling through different sized portals gets the scale difference applied to them. It ended up being quite a complicated system!
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
      </section>
+  
+     <section class="game">
+   <div class="game-topper">
+     <h2>Climbing Archer (WIP)</h2>
+	<img src="CA/ClimbingArcher-export.png" draggable="false" oncontextmenu="return false;">
+	
+	</div>
+     <div class="game-outer">
+	
+		<div class="game-inner">
+		 <p>A 2D 'getting over it' style game with a bow, bounce on the bowstring and land on your arrows. <br><br>
+	
+			<button class="overlay-button" data-target="#overlay-ca">Learn more...</button>
+	  </p>
+
+	  <div class="gif-controls">
+	  <button class="gif-button pressed" id="0">
+		<img src="CA/CAPic0.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+	  <button class="gif-button" id="1">
+		<img src="CA/CAPic1.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+	  <button class="gif-button" id="2">
+		<img src="CA/CAPic2.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+		<button class="gif-button" id="3">
+		<img src="CA/CAPic3.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+		 </div>
+	  <video autoplay muted playsinline id="vidPlayer">
+      <source src="CA/CAVid0.mov" type="video/mp4">
+		</div>
+		</div>
+		
+		
+		<div class="overlay" id="overlay-ca">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Climbing Archer</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight"> Contributions:</span><br> 
+				A solo project, all shown artwork and code is my own. 
+				<br><br>
+				<span class="highlight"> Context:</span><br> 
+A personal project currently being developed in Godot C#. I have identified overscoping and scopecreep as one of my weaknesses as a developer. My goal is to turn this project into a small game with strict considerations for scope, to publish on Steam. For this, I can also reuse and extend systems I have already created such as the player movement and dialogue systems from Zen Grappling.
+			<br><br>
+			<span class="highlight">Dialogue System:</span><br> 
+Each NPC with dialogue in the world has a DialogueSpeaker script that contains their speaker ID, sound effect, pitch, talk speed, and a reference to their sprite to animate them. They add themselves to the DialogueSpeaker group on start so that when a dialogue is triggered, it can find the relevant speaker by ID in the group. <br>
+Dialogue is stored in a text file and each dialogue trigger has a serialized/exported reference to its dialogue file. This makes it easy to add new dialogue as I just have to create a new text file and object to trigger it, while allowing for different characters to behave differently while talking.
+The text files contains blocks of text with their speaker beforehand and the choices/next dialogue after, denoted by specific characters I wouldnt use in the dialogue, such as double colons (::). The game then goes line by line through the text file, passing the text to a speech bubble to be read until it hits an option or the end of dialogue. <br>
+The speech bubble loops over each character within the lines it gets passed and displays each character with a sound effect, delay, and pitch variation depending on the speaker.
+			<br><br>
+<span class="highlight">Music System:</span><br> 
+I was considering using royalty free music for the game given the shorter scope I'm giving myself. However, I wanted to make the music dynamic and fit the different areas of the game while still having similarities between the tracks. For this reason I have produced some music for the game (and more to come..) as well as creating a system for playing them. The music manager has functionality for creating and removing audio players to play different layers of the song at the same synced time, meaning that as the player progresses, layers of the music (with different instruments) can be added to give a sense of progression and keep the music from feeling too repetitive. <br>
+As it's a rage game, while the player falls, the music becomes more distorted as well :).
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
+     </section>
+  
+  
+  
   
     <section class="game">
    <div class="game-topper">
-     <h2>Sand Game (WIP)</h2>
+     <h2>Sand Game</h2>
 	<img src="Sand/SandGame-export.png" draggable="false" oncontextmenu="return false;">
 	
 	</div>
@@ -102,8 +246,8 @@
 		 <span class="highlight">Features: </span><br>
 		• CPU based sandbox with interacting elements.<br>
 		• Compute shaders for calculating large amounts of sand movements.<br>
-		• Little guys that break, collect, and build.
-	  
+		• Little guys that break, collect, and build. <br>
+	  <button class="overlay-button" data-target="#overlay-sg">Learn more...</button>
 	  </p>
 	  <div class="gif-controls">
 	  <button class="gif-button pressed" id="0">
@@ -112,9 +256,9 @@
 	  <button class="gif-button" id="1">
 		<img src="Sand/SandPic1.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
 		</button>
-	  <button class="gif-button" id="2">
-		<img src="Sand/SandPic2.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
-		</button>
+	  <!-- <button class="gif-button" id="2"> -->
+		<!-- <img src="Sand/SandPic2.PNG" alt="Button" draggable="false" oncontextmenu="return false;"> -->
+		<!-- </button> -->
 		<button class="gif-button" id="3">
 		<img src="Sand/SandPic3.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
 		</button>
@@ -123,6 +267,29 @@
       <source src="Sand/SandVid0.mp4" type="video/mp4">
 		</div>
 		</div>
+		
+				<div class="overlay" id="overlay-sg">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Sand Game</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight"> Contributions:</span><br> 
+				A solo project, all shown artwork and code is my own. 
+				<br><br>
+				<span class="highlight"> Context:</span><br> 
+			
+			<br><br>
+				WIP
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
      </section>
   
 	 <section class="game">
@@ -140,8 +307,8 @@
 			• Datetime based offline rewards.<br>
 			• Many special characters and enemies with unique attacks and status modifiers. <br>
 			• 10 cutscenes.<br>
-			• Optional reward ads.
-	  
+			• Optional reward ads. <br>
+	  <button class="overlay-button" data-target="#overlay-pv">Learn more...</button>
 	  </p>
 	  <div class="gif-controls">
 	  <button class="gif-button pressed" id="0">
@@ -161,6 +328,29 @@
       <source src="PV/PVVid0.mp4" type="video/mp4">
 		</div>
 		</div>
+		
+				<div class="overlay" id="overlay-pv">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Penguin Voyage</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight"> Contributions:</span><br> 
+				A solo project, all shown artwork and code is my own. 
+				<br><br>
+				<span class="highlight"> Context:</span><br> 
+
+			<br><br>
+WIP
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
      </section>
 	 
 	  <section class="game">
@@ -175,8 +365,8 @@
 		<span class="highlight">Features I created: </span><br>
 • Cooking simulation including chopping (implented using a package), marinating, skewering, frying. <br>
 • Hint system for cooking<br>
-• Score based cooking
-
+• Score based cooking <br>
+<button class="overlay-button" data-target="#overlay-ss">Learn more...</button>
 	  
 	  </p>
 	  <div class="gif-controls">
@@ -194,7 +384,170 @@
       <source src="Saute/SauteVid0.mp4" type="video/mp4">
 		</div>
 		</div>
+		
+				<div class="overlay" id="overlay-ss">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Slay n Saute</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight"> Contributions:</span><br> 
+				Developed in a team of seven, I was responsible for the cooking simulation, the individual actions (chopping, marinating, skewering, frying, serving) as well as the ordering of the tasks and hint system. We used a package for splitting the mesh while chopping.
+				<br><br>
+				<span class="highlight"> Context:</span><br> 
+A university project developed in Unity with C#. We were assigned a games company as a client who gave us a prompt to build the game around. Communicating with the client, testers during playtests, and our lecturers to refine the game based on feedback.
+			<br><br>
+WIP
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
      </section>
+	 
+	 	 <section class="game">
+   <div class="game-topper">
+     <h2>Paul Kart</h2>
+	<img src="PK/PaulKart-export.png" draggable="false" oncontextmenu="return false;">
+	
+	</div>
+     <div class="game-outer">
+	
+		<div class="game-inner">
+		 <p>It's literally PAUL KART. <br>
+		 <!-- <span class="highlight">Paul Kart</span> <br> -->
+
+	  <button class="overlay-button" data-target="#overlay-pk">Learn more...</button>
+	  </p>
+	  <div class="gif-controls">
+	  <button class="gif-button pressed" id="0">
+		<img src="PK/PKPic0.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+	  <button class="gif-button" id="1">
+		<img src="PK/PKPic1.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+	  <button class="gif-button" id="2">
+		<img src="PK/PKPic2.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+		<button class="gif-button" id="3">
+		<img src="PK/PKPic3.PNG" alt="Button" draggable="false" oncontextmenu="return false;">
+		</button>
+		 </div>
+	  <video autoplay muted playsinline id="vidPlayer">
+      <source src="PK/PKVid0.mov" type="video/mp4">
+		</div>
+		</div>
+		
+				<div class="overlay" id="overlay-pk">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Paul Kart</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+	<span class="highlight"> Contributions:</span><br> 
+				Developed in a team of three programmers, I was responsible for creation of the tracks (including obstacles, itemboxes, boostpads etc), as well as all models (besides from the police car model), player animations, race results screen, and implementing sound effects + music.
+				<br><br>
+				<span class="highlight"> Context:</span><br> 
+A university project developed on PS5 devkits using Abertay's in-house engine Skateboard (Entity component system C++).
+				<br><br>
+				<span class="highlight"> Lighting and Models:</span><br> 
+				Though not a programming specific issue, one of the big limitations of the engine is that it only supported one light. This was a pretty big issue as it meant that even with a directional light, more than half of the game would be in complete darkness. To get around this issue, I created all the models with the limitation in mind. By using the single light we had as a directional light pointing straight down, we could illuminate the ground and top faces of the models. Then I created the models with slanted vertical surfaces so that they were always facing at least slightly upwards, causing them to be illuminated. This is why the walls are slightly slanted and the characters are slightly cone shaped, though not that noticably.
+				<br><br>
+												<span class="highlight"> Track Generation:</span><br> 
+				Tracks are generated using a 2D array representing track tiles that are looped over and instantiated into the world. Track tiles contain lists of the objects within them, such as boostpads, itemboxes, and obstacles like trees. They also contain any colliders like offroad, pits, and walls. This allowed us to quickly create tiles that we could reuse for a variety of track layouts, easily enough that another developer could also help make layouts. Finally, tracks also contained a theme enum so that the tiles could be instantated with different textures depending on theme, allowing for unique looking tracks while using the same system for generating them.
+This system also made it easy for the programmer responsible for AI and race logic to implement invisible checkpoints on each road tile for counting when a racer had completed a lap.
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
+     </section>
+	 
+	 
+	 <!-- <section class="other-games"> -->
+		<!-- <div class="other-games-outer">  -->
+			<!-- <div class="other-games-inner">  -->
+				<!-- <h3>Paul Kart</h3> -->
+				<!-- <img src="Saute/SautePic2.PNG"> -->
+				<!-- <p> • Team of 3 <br> -->
+				<!-- • University in-house engine <br> -->
+				<!-- </p> -->
+				<!-- <button class="overlay-button" data-target="#overlay-pk">Learn more...</button> -->
+			<!-- </div> -->
+		<!-- </div> -->
+		
+		<!-- <div class="overlay" id="overlay-pk"> -->
+		<!-- <div class="overlay-outer"> -->
+			<!-- <div class="overlay-inner"> -->
+				<!-- <h2>Paul Kart</h2> -->
+				<!-- <div class="two-columns"> -->
+				<!-- <div> -->
+					<!-- <p> -->
+				<!-- <span class="highlight"> Contributions:</span><br>  -->
+				<!-- Developed in a team of three programmers, I was responsible for creation of the tracks (including obstacles, itemboxes, boostpads etc), as well as all models (besides from the police car model), player animations, race results screen, and implementing sound effects + music. -->
+				<!-- <br><br> -->
+				<!-- <span class="highlight"> Context:</span><br>  -->
+<!-- A university project developed on PS5 devkits using Abertay's in-house engine Skateboard (Entity component system C++). -->
+				<!-- <br><br> -->
+				<!-- <span class="highlight"> Lighting and Models:</span><br>  -->
+				<!-- Though not a programming specific issue, one of the big limitations of the engine is that it only supported one light. This was a pretty big issue as it meant that even with a directional light, more than half of the game would be in complete darkness. To get around this issue, I created all the models with the limitation in mind. By using the single light we had as a directional light pointing straight down, we could illuminate the ground and top faces of the models. Then I created the models with slanted vertical surfaces so that they were always facing at least slightly upwards, causing them to be illuminated. This is why the walls are slightly slanted and the characters are slightly cone shaped, though not that noticably. -->
+				<!-- <br><br> -->
+
+				<!-- </p> -->
+				<!-- </div> -->
+				<!-- <div> -->
+					<!-- <p> -->
+								<!-- <span class="highlight"> Track Generation:</span><br>  -->
+				<!-- Tracks are generated using a 2D array representing track tiles that are looped over and instantiated into the world. Track tiles contain lists of the objects within them, such as boostpads, itemboxes, and obstacles like trees. They also contain any colliders like offroad, pits, and walls. This allowed us to quickly create tiles that we could reuse for a variety of track layouts, easily enough that another developer could also help make layouts. Finally, tracks also contained a theme enum so that the tiles could be instantated with different textures depending on theme, allowing for unique looking tracks while using the same system for generating them. -->
+<!-- This system also made it easy for the programmer responsible for AI and race logic to implement invisible checkpoints on each road tile for counting when a racer had completed a lap. -->
+
+				<!-- </p> -->
+				<!-- </div> -->
+				<!-- </div> -->
+			
+			<!-- </div> -->
+		<!-- </div> -->
+	 <!-- </div> -->
+		
+		<!-- <div class="other-games-outer">  -->
+			<!-- <div class="other-games-inner">  -->
+				<!-- <h3>Golf For It</h3> -->
+				<!-- <img src="Saute/SautePic2.PNG"> -->
+				<!-- <p> • Team of 3 <br> -->
+				<!-- • University in-house engine <br> -->
+				<!-- </p> -->
+				<!-- <button class="overlay-button" data-target="#overlay-zg">Learn more...</button> -->
+			<!-- </div> -->
+		<!-- </div> -->
+		<!-- <div class="other-games-outer">  -->
+			<!-- <div class="other-games-inner">  -->
+				<!-- <h3>Planterrible</h3> -->
+				<!-- <img src="Saute/SautePic2.PNG"> -->
+				<!-- <p> • Team of 3 <br> -->
+				<!-- • University in-house engine <br> -->
+				<!-- </p> -->
+				<!-- <button class="overlay-button" data-target="#overlay-zg">Learn more...</button> -->
+			<!-- </div> -->
+		<!-- </div> -->
+		<!-- <div class="other-games-outer">  -->
+			<!-- <div class="other-games-inner">  -->
+				<!-- <h3>Trick or Track</h3> -->
+				<!-- <img src="Saute/SautePic2.PNG"> -->
+				<!-- <p> • Team of 3 <br> -->
+				<!-- • University in-house engine <br> -->
+				<!-- </p> -->
+				<!-- <button class="overlay-button" data-target="#overlay-zg">Learn more...</button> -->
+			<!-- </div> -->
+		<!-- </div> -->
+	<!-- </section> -->
 	
 		 <div class="message-box">
 		<h2>Interested? Send me a message:</h2>

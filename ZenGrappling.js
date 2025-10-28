@@ -1,10 +1,12 @@
 
 const videoFiles = [
   ["ZG/PortfolioZG0.mp4", "ZG/PortfolioZG1.mp4", "ZG/PortfolioZG2.mp4", "ZG/PortfolioZG3.mp4"],  
-  ["Tank/TankVid0.mp4", "Tank/TankVid1.mp4", "Tank/TankVid2.mp4", "Tank/TankVid3.mp4"],          
-  ["Sand/SandVid0.mp4", "Sand/SandVid1.mp4", "Sand/SandVid2.mp4", "Sand/SandVid3.mp4"],   
+  ["Tank/TankVid0.mp4", "Tank/TankVid1.mp4", "Tank/TankVid2.mp4", "Tank/TankVid3.mp4"],        
+  ["CA/CAVid0.mov", "CA/CAVid1.mov", "CA/CAVid2.mov", "CA/CAVid3.mov"],    
+  ["Sand/SandVid0.mp4", "Sand/SandVid1.mp4", "Sand/SandVid4.mp4"],   
   ["PV/PVVid0.mp4", "PV/PVVid1.mp4", "PV/PVVid2.mp4", "PV/PVVid3.mp4"],   
-  ["Saute/SauteVid0.mp4", "Saute/SauteVid1.mp4", "Saute/SauteVid2.mp4"],   
+  ["Saute/SauteVid0.mp4", "Saute/SauteVid1.mp4", "Saute/SauteVid2.mp4"], 
+  ["PK/PKVid0.mov", "PK/PKVid1.mov", "PK/PKVid2.mov", "PK/PKVid3.mov"],   
 ];
 
 // For each game
@@ -12,7 +14,7 @@ const videoFiles = [
   games.forEach((section, sectionIndex) => {
 	// Get video players buttons and files
     const videoPlayer = section.querySelector("video");
-    const buttons = section.querySelectorAll("button");
+    const buttons = section.querySelectorAll(".gif-button");
     const files = videoFiles[sectionIndex];
     let currentIndex = 0;
 
@@ -78,3 +80,42 @@ function UpdateBackground() {
 // Check height on load and resize
 UpdateBackground();
 window.addEventListener("resize", UpdateBackground);
+
+
+// OVERLAY BUTTONS
+document.querySelectorAll(".overlay-button").forEach(button => {
+	button.addEventListener('click', () => {
+		const target = document.querySelector(button.dataset.target);
+		if (target) {
+			target.style.display = 'flex';
+			document.body.overflow = 'hidden';
+			document.querySelectorAll(".game-inner video").forEach(videoPlayer => {
+				videoPlayer.pause();       
+			});
+		}
+	});
+});
+
+document.querySelectorAll('.overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target == overlay) { 
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+	  checkVideosVisibility();
+    }
+  });
+});
+
+function checkVideosVisibility() {
+  document.querySelectorAll(".game-inner video").forEach(video => {
+    const rect = video.getBoundingClientRect();
+    const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    const ratio = visibleHeight / rect.height;
+
+    if (ratio >= 0.5) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  });
+}
