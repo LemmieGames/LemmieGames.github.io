@@ -361,7 +361,8 @@ Penguin data that needs to persist across play sessions is stored in a class wit
 <br> 
 Penguin data includes their profession, which is stored as an Enum and used multiple times throughout the game such as going into battle. Penguins in battle inherit from a base PenguinAttack script with functionality for the specific professions in their derived classes, which are stored in a dictionary related to what profession they are.
 <br> 
-The profession enum is also used in the main menu and in cutscenes to get the value of what sprite the penguin should have, so that the players' penguins appear in the cutscenes.
+The profession enum is also used in the main menu and in cutscenes to get the value of what sprite the penguin should have, so that the players' penguins appear in the cutscenes. This is possible as the cutscenes use Unity's animation system rather than being videos.
+
 
 			</p>
 				</div>
