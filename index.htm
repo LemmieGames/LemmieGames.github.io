@@ -63,7 +63,7 @@
 				A solo project, all shown artwork and code is my own. 
 				<br><br>
 				<span class="highlight"> Context:</span><br> 
-Originally a university project developed in SFML C++, I recreated the project in Godot C# due to familiarity to ease development, what you see now is the further developed version.
+Originally a university project developed in SFML C++, I recreated the project in Unity C# due to familiarity for faster development. Then, when Unity introduced the runtime fee I recreated the game in Godot C#, which is what you see now. Refactoring the codebase each time based on what I learned lead to smoother, more polished player movement.
 			<br><br>
 			<span class="highlight">Player state:</span><br> 
 The player character uses a state machine within a PlayerState class to determine how the player should move given the current context, such as switching to swimming controls if entering a water area, which gives me the control to manage state changes based on the current state. One thing I would change if I had to do it over is use classes to represent each state rather than an enum. This would mean I could further separate the movement logic of each state and the state change logic rather than having it in one class, improving readability and making the state system more scalable.
