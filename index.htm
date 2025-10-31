@@ -350,13 +350,19 @@ This also allowed me to paralellise the simulation as paralellising each pixel w
 				<div class="two-columns">
 				<div>
 					<p>
-				<span class="highlight"> Contributions:</span><br> 
+				<span class="highlight">Contributions:</span><br> 
 				A solo project, all shown artwork and code is my own. 
 				<br><br>
-				<span class="highlight"> Context:</span><br> 
-
+				<span class="highlight">Context:</span><br> 
+A personal project developed in Unity C# and published on the Play Store (now delisted). My first game developed not following a specific tutorial, prior to University. It gave me a good insight into different aspects of game development, the artwork, music, localisation, setting up a store page, and actually releasing a finished game.
 			<br><br>
-WIP
+<span class="highlight">Penguins:</span><br> 
+Penguin data that needs to persist across play sessions is stored in a class with their instances also having an ISavable interface, which is called for each object within the scene when the game needs to save or load. This allows for the game to call save on all objects that require it at once.
+<br> 
+Penguin data includes their profession, which is stored as an Enum and used multiple times throughout the game such as going into battle. Penguins in battle inherit from a base PenguinAttack script with functionality for the specific professions in their derived classes, which are stored in a dictionary related to what profession they are.
+<br> 
+The profession enum is also used in the main menu and in cutscenes to get the value of what sprite the penguin should have, so that the players' penguins appear in the cutscenes.
+
 			</p>
 				</div>
 				</div>
