@@ -387,6 +387,9 @@ p {
 	width: 100%;
 	font-size: clamp(1.5rem, 1.8vw, 3.5rem);
 	margin-top: auto;
+	margin-top: 0px;
+	padding-top: 0px;
+	top: -20px;
 }
 
 .other-games-inner button:hover {
@@ -397,6 +400,8 @@ p {
 	line-height: 1.0;
 		text-align: center;
 	 font-size: clamp(1.0rem, 1.2vw, 3rem);
+	 padding-bottom: 0px;
+	 margin-bottom: 0px;
 }
 
 

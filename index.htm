@@ -173,7 +173,11 @@ Portals attached to walls can be enlarged when a growth ray hits the wall, and a
 	
 		<div class="game-inner">
 		 <p>A 2D 'getting over it' style game with a bow, bounce on the bowstring and land on your arrows. <br><br>
-	
+		<span class="highlight">Features:</span> <br>
+		 • Custom keybind options that save across sessions. <br>
+		 • Dialogue system.<br>
+		 • Adaptive music system. <br>
+		 • Multiple interactable NPCs. <br>
 			<button class="overlay-button" data-target="#overlay-ca">Learn more...</button>
 	  </p>
 
@@ -276,12 +280,22 @@ As it's a rage game, while the player falls, the music becomes more distorted as
 				<div>
 					<p>
 				<span class="highlight"> Contributions:</span><br> 
-				A solo project, all shown artwork and code is my own. 
-				<br><br>
-				<span class="highlight"> Context:</span><br> 
-			
-			<br><br>
-				WIP
+A solo project, all shown artwork and code is my own.
+<br> <br> 
+<span class="highlight">Context:</span><br> 
+A personal project developed in Godot C#, inspired by the incremential genre and falling sand games, I wanted to combine the impressive visuals of falling sand with an incremental progression system. However, part of the enjoyment of incremental games is seeing the number scale exponentially bigger as you progress, which can quickly become an issue of performance with falling sand without careful optimisations. For that reason I have decided to take this idea forward for my university honours project; developing a falling sand simulation that makes use of GPGPU with compute shaders while in a game context by considering and minimising the data that needs to be passed between CPU and GPU to make it a playable game.<br> 
+<br> <br> 
+<span class="highlight">Falling sand: </span><br> 
+There are two sprites in the scene, one for the structure and another one that starts empty for the falling sand. Clicking converts your click position into pixel coordinates and reduces saturation of the structure in a radius around the click position. Once the saturation of a pixel reaches zero, it is removed from the sprite and added to the sand sprite. All pixels in the sand sprite check if the pixel below is clear and moves down if so. If not, the pixel then checks diagonally down left or right and moves there instead, which causes the sand to pile into dunes. <br> 
+Through development I realised that the order of processing the sprite makes a big impact on the way the sand falls. Checking from bottom to top is important to avoid sand getting stuck on top of other falling sand, and horizontal order changes the outcome too. Alternating between left right checks and switching the order every process step made the sand fall most realistically.
+<br> <br> 
+Other elements in the sandbox have similar simple interactions, liquids check left or right instead of diagonally, gasses act the same but reversed vertically (and added random left/right for extra floatiness). These material types are stored as an enum within a particle struct also containing: density, lifetime, and temperature. The sprite is a 2D array of these particle structs.<br> 
+I chose to hold the data for the particles in a struct rather than a class due to structs being a value type rather than reference, meaning it is contiguous in memory and looping over the grid of pixels becomes much more efficient due to less cache misses.
+<br> <br> 
+<span class="highlight">Optimisations:</span><br> 
+The first optimisation was to keep a list of active pixels to iterate over rather than checking the whole image, removing pixels from the list when they had nowhere to move and readding the ones above when removing pixels.
+Next I learned how Noita handles their falling sand and used spatial partitioning to break the image down into smaller chunks to only process chunks that have pixels in them. This allows me to keep a rect that covers all the pixels per chunk and iterate over the rects instead, which is more efficient as having a single list can become incredibly large and not cache friendly when the pixels are not ordered by position.
+This also allowed me to paralellise the simulation as paralellising each pixel would not be efficient due to pixels having race conditions checking and moving into neighbouring cells. Chunks can be parallelised in four passes so that no adjacent chunks are being processed at the same time, though this does require either a second buffer or a simple bool to check if a pixel has already been updated this process step as pixels can move into other chunks and get processesed twice.
 			</p>
 				</div>
 				</div>
@@ -398,7 +412,23 @@ WIP
 				<span class="highlight"> Context:</span><br> 
 A university project developed in Unity with C#. We were assigned a games company as a client who gave us a prompt to build the game around. Communicating with the client, testers during playtests, and our lecturers to refine the game based on feedback.
 			<br><br>
-WIP
+
+<span class="highlight">Hints and Guidance:</span><br> 
+We wanted the cooking to be exploritory and not hold the players hand too much, From the first playtest a lot of the enjoyment came from figuring out how to cook the meal on your own.. and if you wanted to chop the carrot into a million pieces you could do that too (because that happened a lot).<br> 
+While there were limitations, you couldn't 'lose' cooking, the risk of having it more open to exploration is that the player may not understand what to do, which can quickly lead to frustrations and understanding may vary with players' previous cooking experience. To ease this there were a number of small changes and additions made, one such being the silhouettes of objects when holding an item to show where it would go if you clicked with it, what it could interact with. This was done by simply duplicating the object when it was picked up with a translucent shader applied to the clone and then positioned based on a raycast from the cursor position, depending on what it hit and what was interactable by the current object. The clone was then destroyed when the player interacts with the item.
+<br> <br> 
+Another addition was the hint lights that shone on where the player should interact next to progress the cooking and was based on what current tasks had been completed as well as what the player was currently holding. This required careful tweaking from watching playtesters to ensure it wasn't too delayed or too pestering.
+<br> <br> 
+One final addition to make it easier was making all the objects in the scene easily movable without breaking the logic of the tasks, to allow for designers to adjust the cooking layout easily based on game flow and what logically makes sense next to each other.
+<br> <br> 
+<span class="highlight">Polish:</span><br> 
+Another thing we learned from the playtests is that the players found chopping the ingredients super satisfying and we wanted to lean further into it, combat would be the tension and cooking is the release. No lose condition, relaxing music, player can play at their own pace. To further this goal I implemented a number of small elements of polish to improve player experience.
+<br> 
+The first is the animation of moving the ingredients to their own plate after chopping, before they would just teleport there all at once. I changed that to be an animation teleporting one after another in a coroutine with a short pop sound, random velocity and above the plate so that you could see it fall. This leaned further into the many players who liked chopping the ingredients really small as the animation would play longer and be more over the top for the number of ingredients being added.
+<br> 
+Skewering the ingredients felt flat and uninteresting, for this I added screen shake whenever the player skewered. I also made the skewer animation draw back quickly and accelerate, exaggerating the aggressiveness of the movement really helped give weight to the players click, you could feel the skewer being thrusted down. There is also a 'skewer buffer' implemented so if the player clicks towards the end of the previous animation it stores the input for a short duration and still performs the next skewer, to avoid the frustration of clicking slightly too early and nothing happening. Furthermore, I added a shadow below the skewer that animated when its hovered over an ingredient via raycast, which helped reduce the frustrations of missing an ingredient.
+<br> 
+Another small thing we couldn't have known without playtesters is that the freedom would also inspire players to do things we hadn't expected, like chopping the tablet that had the cooking instructions on it. To play into this and avoid players expecting something and not being rewarded for it, I added a glitchy animation with a sound effect to chopping the tablet. It was a small thing most players had no idea about, but seeing the reactions of the players who did find it made it all worth it.
 			</p>
 				</div>
 				</div>
@@ -477,82 +507,206 @@ This system also made it easy for the programmer responsible for AI and race log
      </section>
 	 
 	 
-	 <!-- <section class="other-games"> -->
-		<!-- <div class="other-games-outer">  -->
-			<!-- <div class="other-games-inner">  -->
-				<!-- <h3>Paul Kart</h3> -->
-				<!-- <img src="Saute/SautePic2.PNG"> -->
-				<!-- <p> • Team of 3 <br> -->
-				<!-- • University in-house engine <br> -->
-				<!-- </p> -->
-				<!-- <button class="overlay-button" data-target="#overlay-pk">Learn more...</button> -->
-			<!-- </div> -->
-		<!-- </div> -->
+	 <section class="other-games">
+		<div class="other-games-outer"> 
+			<div class="other-games-inner"> 
+				<h3>Golf For It</h3>
+				<img src="GolfForIt.gif">
+				<p> • Gamejam team of 5 <br>
+				• Procedurally generated sidescroller terrain 
+				</p>
+				<button class="overlay-button" data-target="#overlay-gfi">Learn more...</button>
+			</div>
+		</div>
 		
-		<!-- <div class="overlay" id="overlay-pk"> -->
-		<!-- <div class="overlay-outer"> -->
-			<!-- <div class="overlay-inner"> -->
-				<!-- <h2>Paul Kart</h2> -->
-				<!-- <div class="two-columns"> -->
-				<!-- <div> -->
-					<!-- <p> -->
-				<!-- <span class="highlight"> Contributions:</span><br>  -->
-				<!-- Developed in a team of three programmers, I was responsible for creation of the tracks (including obstacles, itemboxes, boostpads etc), as well as all models (besides from the police car model), player animations, race results screen, and implementing sound effects + music. -->
-				<!-- <br><br> -->
-				<!-- <span class="highlight"> Context:</span><br>  -->
-<!-- A university project developed on PS5 devkits using Abertay's in-house engine Skateboard (Entity component system C++). -->
-				<!-- <br><br> -->
-				<!-- <span class="highlight"> Lighting and Models:</span><br>  -->
-				<!-- Though not a programming specific issue, one of the big limitations of the engine is that it only supported one light. This was a pretty big issue as it meant that even with a directional light, more than half of the game would be in complete darkness. To get around this issue, I created all the models with the limitation in mind. By using the single light we had as a directional light pointing straight down, we could illuminate the ground and top faces of the models. Then I created the models with slanted vertical surfaces so that they were always facing at least slightly upwards, causing them to be illuminated. This is why the walls are slightly slanted and the characters are slightly cone shaped, though not that noticably. -->
-				<!-- <br><br> -->
-
-				<!-- </p> -->
-				<!-- </div> -->
-				<!-- <div> -->
-					<!-- <p> -->
-								<!-- <span class="highlight"> Track Generation:</span><br>  -->
-				<!-- Tracks are generated using a 2D array representing track tiles that are looped over and instantiated into the world. Track tiles contain lists of the objects within them, such as boostpads, itemboxes, and obstacles like trees. They also contain any colliders like offroad, pits, and walls. This allowed us to quickly create tiles that we could reuse for a variety of track layouts, easily enough that another developer could also help make layouts. Finally, tracks also contained a theme enum so that the tiles could be instantated with different textures depending on theme, allowing for unique looking tracks while using the same system for generating them. -->
-<!-- This system also made it easy for the programmer responsible for AI and race logic to implement invisible checkpoints on each road tile for counting when a racer had completed a lap. -->
-
-				<!-- </p> -->
-				<!-- </div> -->
-				<!-- </div> -->
+				<div class="overlay" id="overlay-gfi">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Golf For It</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+<span class="highlight">Context:</span><br> 
+Created using Godot C# in a team of 5 for a gamejam of the theme 'no limits'. We created a golf game where the player has a limited time to hit the ball as far as possible, with powerups to increase the time, power, number of shots etc with no limit.
+<br> <br> 
+<span class="highlight">Contributions:</span><br> 
+I created the procedurally generated sidescroller terrain, including different elements (grass, sand) that have different effects on the ball, obstacles placed along the ground, as well as coins on the ground and in the air, and finally floating islands.
+<br> <br> 
+Terrain scales to be more harsh the further the player progresses, sand occurs more frequently, more obstacles, more of an incline and more severe differences in height, floating islands spawn more frequently but so do high value coins.
+<br> <br> 
+<span class="highlight">Terrain logic:</span><br> 
+The terrain is made using a Shape2D node as well as a Line2D for the outline texture. The height is determined by one dimensional noise with the X position passed in, multiplied and added to by a factor of the distance to make the terrain steeper and more varied the further the player progresses. The same thing is done for sand on another layer but with different values so I can control how often sand shows above the ground.
+<br> 
+The terrain is broken up into two chunks, when the player is near the end of the second chunk, the first chunk is moved to the right and updated with the new X position to give the illusion of a continous ground. This also happens in reverse in case the player attempts to go backwards.
+<br> <br> 
+Floating islands are textured the same way but are generated by sampling points at regular intervals on a grid, those positions are passed into a two dimensional noise function and if its above a certain threshold (that decreases with progress) then an island is created there.
+<br> 
+Islands are also a Shape2D with noise applied to each point on the circle to make it look more random, their positions are offset based on their position in the grid so that the grid shape isn't visible and it further looks more random. Where there isn't an island, there is a chance to spawn a coin there instead.
+			</p>
+				</div>
+				</div>
 			
-			<!-- </div> -->
-		<!-- </div> -->
-	 <!-- </div> -->
+			</div>
+		</div>
+	 </div>
+	
 		
-		<!-- <div class="other-games-outer">  -->
-			<!-- <div class="other-games-inner">  -->
-				<!-- <h3>Golf For It</h3> -->
-				<!-- <img src="Saute/SautePic2.PNG"> -->
-				<!-- <p> • Team of 3 <br> -->
-				<!-- • University in-house engine <br> -->
-				<!-- </p> -->
-				<!-- <button class="overlay-button" data-target="#overlay-zg">Learn more...</button> -->
-			<!-- </div> -->
-		<!-- </div> -->
-		<!-- <div class="other-games-outer">  -->
-			<!-- <div class="other-games-inner">  -->
-				<!-- <h3>Planterrible</h3> -->
-				<!-- <img src="Saute/SautePic2.PNG"> -->
-				<!-- <p> • Team of 3 <br> -->
-				<!-- • University in-house engine <br> -->
-				<!-- </p> -->
-				<!-- <button class="overlay-button" data-target="#overlay-zg">Learn more...</button> -->
-			<!-- </div> -->
-		<!-- </div> -->
-		<!-- <div class="other-games-outer">  -->
-			<!-- <div class="other-games-inner">  -->
-				<!-- <h3>Trick or Track</h3> -->
-				<!-- <img src="Saute/SautePic2.PNG"> -->
-				<!-- <p> • Team of 3 <br> -->
-				<!-- • University in-house engine <br> -->
-				<!-- </p> -->
-				<!-- <button class="overlay-button" data-target="#overlay-zg">Learn more...</button> -->
-			<!-- </div> -->
-		<!-- </div> -->
-	<!-- </section> -->
+		<div class="other-games-outer"> 
+			<div class="other-games-inner"> 
+				<h3>Trick or Track</h3>
+				<img src="TrickOrTrack.gif">
+				<p> • Gamejam team of 4 <br>
+				• Procedurally generated top down terrain <br>
+				• Player movement <br>
+				</p>
+				<button class="overlay-button" data-target="#overlay-tot">Learn more...</button>
+			</div>
+		</div>
+		
+						<div class="overlay" id="overlay-tot">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Trick or Track</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+
+<span class="highlight">Context:</span><br> 
+Created using Godot C# in a team of 4 for a gamejam of the theme 'no end'. The game has the player collecting track items around the procedurally generated terrain and placing them in front of the train, steering it to avoid crashing.
+<br> <br> 
+<span class="highlight">Contributions:</span><br> 
+I created the top down player character that can move and dash as well as the procedurally generated top down terrain.
+<br> <br> 
+<span class="highlight">Terrain Generation:</span><br> 
+Terrain is generated in a scrolling tilemap before coming into screen view and removed after leaving. The type of tile depends on its position in a 2D noise function, having different cutoff points for different tiles such as water, sand, and grass produces a nice looking area of water surrounded by sand. 
+<br> 
+Obstacles on top of the terrain that block or deal damage to the player is based on a separate noise value to ensure that the pathway can never be completely blocked.
+<br> 
+Every set distance the biome will change between grasslands, tundra, and desert. This changes out the tiles being spawned and offers unique challenges. Grassland has water that slows, tundra has slippery ice, desert has cacti that stun the player on contact.
+<br> <br> 
+<span class="highlight">Player Character:</span><br> 
+As we had no artists on our team, we had no animations for the player. To make the player look less static I added a squash and stretch animation on the player while they moved, as well as a quick rotation animation when the player rolled.
+<br> <br> 
+The tile the player is standing on impacts their movement as well as the colour of the particles below their feet. This is implemented by having custom tile data for friction, max speed, particle amount, and particle colour for each tile, then converting the players position to tilemap position and getting the data of the tile below the penguin to update the particles and movement.
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
+		
+		
+		<div class="other-games-outer"> 
+			<div class="other-games-inner"> 
+				<h3>Planterrible</h3>
+				<img src="Planterrible.gif">
+				<p> • Gamejam team of 5 <br>
+				• Randomly generated maze <br>
+				• Enemy NPC logic <br>
+				</p>
+				<button class="overlay-button" data-target="#overlay-pt">Learn more...</button>
+			</div>
+		</div>
+		
+						<div class="overlay" id="overlay-pt">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Planterrible</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+<span class="highlight">Context:</span><br> 
+Created using Unity C# in a team of 5 for a gamejam of the theme 'roots'.
+<br> <br> 
+<span class="highlight">Contributions:</span><br> 
+I made the random maze generator as well as the enemy NPC logic.
+<br> <br> 
+<span class="highlight">Maze Generator:</span><br> 
+The maze is made up of a 2D array of rooms. Rooms are stored as a struct containing bools for if they have been visited during creation as well as which of the four walls are open.
+<br> <br> 
+The program then starts at the starting room and gets a random neighbour of available neighbours, meaning they are within the bounds of the maze size and have not already been visited. It marks on both rooms an opening between them, marks the starting room as visited and adds it to a stack, and then continues doing this in a loop until it reaches the target room.
+<br> 
+If this process ends up cornering itself and there are no available neighbours, it will have created a dead end and then pops from the stack until it has a room that does have an available neighbour, this way it always reaches the target room.
+<br> <br> 
+This process works for creating basic mazes but the problem is the pathways are often too linear as all rooms will have only one or two exists. To get around this problem, after the previous steps are taken the program then divides the game world into four quadrants, picks a set number of random rooms in each quadrant, and checks if there are neighbouring rooms that aren't open (if there's a wall in the way). If so then it will mark the wall as open, creating new pathways through the maze and making it less linear.
+<br> 
+The world is split into four quadrants to make the randomness more even over the world as otherwise one section may become too open with another section being too linear.
+<br> <br> 
+Each room has a chance to create an enemy, with the odds increasing everytime an enemy is not spawned and resetting when one is. This is to ensure that maps can't be impossible (as enemies feed the plant and are needed to keep progressing).
+<br> <br> 
+<span class="highlight">Enemy NPCS:</span><br> 
+Enemies are stationary until they have line of sight to the plant via raycast.
+Humans will fire at the plant and pursue it if the plant is distant, such that the player can draw the human in if they can't reach the player. The human will walk backwards if the plant is too close.
+Bunnies work off of the same system but will turn to face the plant if they have line of sight, and will turn to top away if the plant is too close.
+
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
+		
+		<div class="other-games-outer"> 
+			<div class="other-games-inner"> 
+				<h3>Graphics in DX11</h3>
+				<img src="Graphics.gif">
+				<p> • Solo university project <br>
+				• HLSL in DirectX11 <br>
+				</p>
+				<button class="overlay-button" data-target="#overlay-gp">Learn more...</button>
+			</div>
+		</div>
+		
+						<div class="overlay" id="overlay-gp">
+		<div class="overlay-outer">
+			<div class="overlay-inner">
+				<h2>Graphics Programming in DirectX11</h2>
+				<div class="two-columns">
+				<div>
+					<p>
+				<span class="highlight"> Context:</span><br> 
+A solo university project created with HLSL shaders in DirectX11.
+				<br><br>
+				
+			<span class="highlight">Features:</span><br> 
+• Vertex manipulation to create terrain from a heightmap and wavy sea.<br> 
+• Directional lights, spotlights, and point lights.<br> 
+• Shadows created using shadowmaps.<br> 
+• Bloom, fog, grayscale post processing shaders.<br> 
+• Tessellation of meshes.<br> 
+<br>
+<span class="highlight">Light and Shadow:</span><br> 
+My program features directional lights, spotlights, and point lights, as well as shadows casted via shadowmapping. Done by rendering the scene from the lights perspective as a depth check to a shadow map, one for each light.
+<br><br> 
+The project also includes specular highlights for reflective surfaces like the lampposts and sea. Initially I had each light hold information about its specular power but later switched it to an input on the light pixel shader so that each object in the scene held its own specular power, which is more inline with real life as it should be a material property of how shiny the surface is, rather than a property of the light. 
+<br><br>
+<span class="highlight">Post Processing Shaders:</span><br> 
+My program features bloom, fog, and grayscale as part of a post processing pixel shader. 
+Bloom specifically was created by rendering the scene to a texture, before undergoing four passes, which is done because the scene texture needs to be manipulated multiple ways for the bloom effect and therefore cannot be done during the initial render. 
+The first pass uses a pixel shader that filters out pixels of low luminance, rounding them down to black and leaving only bright pixels on the texture. The next two passes are horizontal and vertical blur passes using the gaussian function for dynamic weights for neighbouring pixels, blurring the bright parts of the scene. Finally, the last pass adds the colour of the blurred light back onto the original scene texture to create blurred highlights around the light.
+<br><br> 
+The bloom shader successfully creates a glow around the lit portion of the scene, with GUI controls for luminance threshold, blur radius, and strength. Although performance is not noticeably impacted by the post processing effects, a potential improvement could be to use compute shaders to improve efficiency of the blur passes by taking advantage of shared memory in a group to reduce sampling of the same pixel so many times.
+<br><br> 
+<span class="highlight">Tessellation:</span><br> 
+Both the terrain created from a heightmap and the vertex manipulated sea are tessellated, dynamically increasing the level of detail close to the camera while keeping low levels of detail in the distance, thereby adding detail without too much impact on performance.
+Framerate was measured with and without tessellation and the results showed that tessellation allowed for a much greater level of detail up close that would not have been possible without noticably impacting performance not using tessellation.
+	
+
+			</p>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+	 </div>
+		
+		
+		
+	</section>
 	
 		 <div class="message-box">
 		<h2>Interested? Send me a message:</h2>
