@@ -424,16 +424,16 @@ A university project developed in Unity with C#. We were assigned a games compan
 
 <span class="highlight">Hints and Guidance:</span><br> 
 We wanted the cooking to be exploritory and not hold the players hand too much, From the first playtest a lot of the enjoyment came from figuring out how to cook the meal on your own.. and if you wanted to chop the carrot into a million pieces you could do that too (because that happened a lot).<br> 
-While there were limitations, you couldn't 'lose' cooking, the risk of having it more open to exploration is that the player may not understand what to do, which can quickly lead to frustrations and understanding may vary with players' previous cooking experience. To ease this there were a number of small changes and additions made, one such being the silhouettes of objects when holding an item to show where it would go if you clicked with it, what it could interact with. This was done by simply duplicating the object when it was picked up with a translucent shader applied to the clone and then positioned based on a raycast from the cursor position, depending on what it hit and what was interactable by the current object. The clone was then destroyed when the player interacts with the item.
+While there were limitations, you couldn't 'lose' cooking. The risk of having it more open to exploration is that the player may not understand what to do, which can quickly lead to frustrations and understanding may vary with players' previous cooking experience. To ease this, there were a number of small changes and additions made, one such being the silhouettes of objects when holding an item to show where it would go if you clicked with it, what it could interact with. This was done by duplicating the object's visual componenents when it was picked up, with a translucent shader applied to the clone and then positioned based on a raycast from the cursor position, depending on what it hit and what was interactable by the current object. The clone was then destroyed when the player interacts with the item.
 <br> <br> 
 Another addition was the hint lights that shone on where the player should interact next to progress the cooking and was based on what current tasks had been completed as well as what the player was currently holding. This required careful tweaking from watching playtesters to ensure it wasn't too delayed or too pestering.
 <br> <br> 
 One final addition to make it easier was making all the objects in the scene easily movable without breaking the logic of the tasks, to allow for designers to adjust the cooking layout easily based on game flow and what logically makes sense next to each other.
 <br> <br> 
 <span class="highlight">Polish:</span><br> 
-Another thing we learned from the playtests is that the players found chopping the ingredients super satisfying and we wanted to lean further into it, combat would be the tension and cooking is the release. No lose condition, relaxing music, player can play at their own pace. To further this goal I implemented a number of small elements of polish to improve player experience.
+Another thing we learned from the playtests is that the players found chopping the ingredients super satisfying and we wanted to lean further into it; combat would be the tension and cooking is the release. No lose condition, relaxing music, player can play at their own pace. To further this goal I implemented a number of small elements of polish to improve player experience.
 <br> 
-The first is the animation of moving the ingredients to their own plate after chopping, before they would just teleport there all at once. I changed that to be an animation teleporting one after another in a coroutine with a short pop sound, random velocity and above the plate so that you could see it fall. This leaned further into the many players who liked chopping the ingredients really small as the animation would play longer and be more over the top for the number of ingredients being added.
+The first is the animation of moving the ingredients to their own plate after chopping as before they would just teleport there all at once. I changed that to be an animation teleporting one after another in a coroutine with a short pop sound, random velocity and above the plate so that you could see it fall. This leaned further into the many players who liked chopping the ingredients really small as the animation would play longer and be more over the top for the number of ingredients being added.
 <br> 
 Skewering the ingredients felt flat and uninteresting, for this I added screen shake whenever the player skewered. I also made the skewer animation draw back quickly and accelerate, exaggerating the aggressiveness of the movement really helped give weight to the players click, you could feel the skewer being thrusted down. There is also a 'skewer buffer' implemented so if the player clicks towards the end of the previous animation it stores the input for a short duration and still performs the next skewer, to avoid the frustration of clicking slightly too early and nothing happening. Furthermore, I added a shadow below the skewer that animated when its hovered over an ingredient via raycast, which helped reduce the frustrations of missing an ingredient.
 <br> 
@@ -546,11 +546,11 @@ Terrain scales to be more harsh the further the player progresses, sand occurs m
 <span class="highlight">Terrain logic:</span><br> 
 The terrain is made using a Shape2D node as well as a Line2D for the outline texture. The height is determined by one dimensional noise with the X position passed in, multiplied and added to by a factor of the distance to make the terrain steeper and more varied the further the player progresses. The same thing is done for sand on another layer but with different values so I can control how often sand shows above the ground.
 <br> 
-The terrain is broken up into two chunks, when the player is near the end of the second chunk, the first chunk is moved to the right and updated with the new X position to give the illusion of a continous ground. This also happens in reverse in case the player attempts to go backwards.
+The terrain is broken up into two chunks, when the player is near the end of the second chunk the first chunk is moved to the right and updated with the new X position to give the illusion of a continous ground. This also happens in reverse in case the player attempts to go backwards.
 <br> <br> 
 Floating islands are textured the same way but are generated by sampling points at regular intervals on a grid, those positions are passed into a two dimensional noise function and if its above a certain threshold (that decreases with progress) then an island is created there.
 <br> 
-Islands are also a Shape2D with noise applied to each point on the circle to make it look more random, their positions are offset based on their position in the grid so that the grid shape isn't visible and it further looks more random. Where there isn't an island, there is a chance to spawn a coin there instead.
+Islands are a Shape2D with noise applied to each point on the circle to make it look more random, their positions are offset based on their position in the grid so that the grid shape isn't visible and it further looks more random. Where there isn't an island, there is a chance to spawn a coin there instead.
 			</p>
 				</div>
 				</div>
@@ -639,7 +639,7 @@ The program then starts at the starting room and gets a random neighbour of avai
 <br> 
 If this process ends up cornering itself and there are no available neighbours, it will have created a dead end and then pops from the stack until it has a room that does have an available neighbour, this way it always reaches the target room.
 <br> <br> 
-This process works for creating basic mazes but the problem is the pathways are often too linear as all rooms will have only one or two exists. To get around this problem, after the previous steps are taken the program then divides the game world into four quadrants, picks a set number of random rooms in each quadrant, and checks if there are neighbouring rooms that aren't open (if there's a wall in the way). If so then it will mark the wall as open, creating new pathways through the maze and making it less linear.
+This process works for creating basic mazes but the problem is the pathways are often too linear as most rooms will have only two exists. To get around this problem, after the previous steps are taken the program then divides the game world into four quadrants, picks a set number of random rooms in each quadrant, and checks if there are neighbouring rooms that aren't open (if there's a wall in the way). If so then it will mark the wall as open, creating new pathways through the maze and making it less linear.
 <br> 
 The world is split into four quadrants to make the randomness more even over the world as otherwise one section may become too open with another section being too linear.
 <br> <br> 
@@ -648,7 +648,7 @@ Each room has a chance to create an enemy, with the odds increasing everytime an
 <span class="highlight">Enemy NPCS:</span><br> 
 Enemies are stationary until they have line of sight to the plant via raycast.
 Humans will fire at the plant and pursue it if the plant is distant, such that the player can draw the human in if they can't reach the player. The human will walk backwards if the plant is too close.
-Bunnies work off of the same system but will turn to face the plant if they have line of sight, and will turn to top away if the plant is too close.
+Bunnies work off of the same system but will turn to face the plant if they have line of sight, and will turn to hop away if the plant is too close.
 
 			</p>
 				</div>
