@@ -140,9 +140,26 @@ This allows me to create more intricate, realistic movement for NPCs, such as a 
 				A solo project, all shown artwork and code is my own. 
 				<br><br>
 				<span class="highlight"> Context:</span><br> 
-Artefact for my university honours project.
+Final artefact for my university honours project, researching how falling sand simulations with a playable character (inspired by Noita) 
+perform at large scales on GPU architecture.
 <br>
-WIP. (Will be done later today, I have an honours demo to prepare for. - 06/05
+Here is an abstract excerpt from my dissertation:
+<br> <br>
+
+<span class="highlight"> Background:</span><br> 
+Existing research into GPU accelerated falling sand simulations have proven to be effective while largely focusing on traditional sandbox environments. However, recent CPU implementations have integrated more interactive gameplay mechanics; the implications of these systems on GPU architecture, including the communication overhead, are largely unexplored.<br>
+<span class="highlight"> Aim:</span><br> 
+To research different use cases and optimisation techniques for cellular automata within games contexts. From this, identify and evaluate bottlenecks in scalability and the impact of CPU – GPU communication on a playable, GPU-based falling sand simulation.<br>
+<span class="highlight"> Method:</span><br> 
+An application was developed using Godot 4.5 C#, demonstrating falling sand, particle, and fluid simulations on the GPU. Including a player character, procedurally generated terrain that is partitioned into chunks and loaded around the camera to give the illusion of a large persistent world, and a testing menu for consistency when measuring results.<br>
+<span class="highlight"> Results:</span><br> 
+Scalability was bottlenecked by the cellular automata-based fluid simulation on the GPU, while the CPU – GPU communication overhead contributed a larger percentage of the total frame time at lower simulation sizes.<br>
+<span class="highlight"> Conclusion:</span><br> 
+The bottleneck of a GPU-based simulation mainly depends on the workload (simulation size and per-cell attributes), the complexities of the systems, and how well those systems can map their memory to GPU architecture. Simple processes and minimal workloads are likely to be bound by the serial data transfers (Amdahl's Law), while memory intensive systems and large-scale workloads are likely to be bound by the parallel fraction (Gustafson's Law).<br>
+
+
+
+ 
 			</p>
 				</div>
 				</div>
