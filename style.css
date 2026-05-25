@@ -482,13 +482,13 @@ p {
   align-self: end;
 }
 
-.game:nth-child(even) .game-topper {
+.game:nth-child(odd) .game-topper {
   flex-direction: row-reverse; 
   justify-content: flex-start;
   text-align: right;
 }
 
-.game:nth-child(even) .game-topper h2 {
+.game:nth-child(odd) .game-topper h2 {
   text-align: right;
   margin-left: 0;      
   padding-left: 0%;
@@ -496,22 +496,22 @@ p {
   translate: 0 105%;
 }
 
-.game:nth-child(even) .game-topper img, .game-topper video {
+.game:nth-child(odd) .game-topper img, .game-topper video {
   margin-left: 0;
   margin-right: auto;
 }
 
-.game:nth-child(even) .game-inner p,
-.game:nth-child(even) .gif-controls {
+.game:nth-child(odd) .game-inner p,
+.game:nth-child(odd) .gif-controls {
   grid-column: 2;
 }
 
-.game:nth-child(even) .game-inner img,
-.game:nth-child(even) .game-inner .video-wrapper {
+.game:nth-child(odd) .game-inner img,
+.game:nth-child(odd) .game-inner .video-wrapper {
   grid-column: 1;
 }
 
-.game:nth-child(even) .game-inner {
+.game:nth-child(odd) .game-inner {
   grid-template-columns: 55% 1fr;
 }
 
