@@ -1,4 +1,3 @@
-
 const videoFiles = [
   ["ZG/PortfolioZG0.mp4", "ZG/PortfolioZG1.mp4", "ZG/PortfolioZG2.mp4", "ZG/PortfolioZG3.mp4"],  
   ["Drone/DroneVid0.mp4", "Drone/DroneVid1.mp4", "Drone/DroneVid2.mp4", "Drone/DroneVid3.mp4"],       
@@ -7,42 +6,59 @@ const videoFiles = [
   ["Sand/SandVid0.mp4", "Sand/SandVid1.mp4", "Sand/SandVid4.mp4"],   
   ["PV/PVVid0.mp4", "PV/PVVid1.mp4", "PV/PVVid2.mp4", "PV/PVVid3.mp4"],   
   ["Saute/SauteVid0.mp4", "Saute/SauteVid1.mp4", "Saute/SauteVid2.mp4"], 
-  ["PK/PKVid0.mov", "PK/PKVid1.mov", "PK/PKVid2.mov", "PK/PKVid3.mov"],   
+  ["PK/PKVid0.mov", "PK/PKVid1.mov", "PK/PKVid2.mov", "PK/PKVid3.mov"],    
 ];
 
-// For each game
-  const games = document.querySelectorAll(".game-inner");
-  games.forEach((section, sectionIndex) => {
-	// Get video players buttons and files
-    const videoPlayer = section.querySelector("video");
-    const buttons = section.querySelectorAll(".gif-button");
-    const files = videoFiles[sectionIndex];
-    let currentIndex = 0;
+const games = document.querySelectorAll(".game-inner");
+games.forEach((section, sectionIndex) => {
+  const videoPlayer = section.querySelector("video");
+  const buttons = section.querySelectorAll(".gif-button");
+  const muteBtn = section.querySelector(".mute-button");
+  const muteIcon = muteBtn.querySelector(".mute-icon");
+  const iconMuted = "mute.png";
+  const iconUnmuted = "unmute.png";
+  const files = videoFiles[sectionIndex];
+  let currentIndex = 0;
 
+  function LoadVideo(i) {
+    const isMuted = videoPlayer.muted;
 
-	function LoadVideo(i) 
-	{
-	  // Load new video
-	  videoPlayer.src = files[i];
-	  videoPlayer.load();               
+    videoPlayer.src = files[i];
+    videoPlayer.load();               
 
-	  // Update selected button
-	  buttons.forEach(b => b.classList.remove("pressed"));
-	  buttons[i].classList.add("pressed");
+    videoPlayer.muted = isMuted;
 
-	  currentIndex = i;
-	}
+    buttons.forEach(b => b.classList.remove("pressed"));
+    buttons[i].classList.add("pressed");
 
-    // Make button load video
-    buttons.forEach((btn, i) => btn.addEventListener("click", () => LoadVideo(i)));
+    currentIndex = i;
+  }
 
-    // Make video autoplay
-    videoPlayer.addEventListener("ended", () => {
-      currentIndex = (currentIndex + 1) % files.length;
-      LoadVideo(currentIndex);
-    });
-	
+  if (muteBtn) 
+  {
+	  muteBtn.addEventListener("click", () => {
+	  if (videoPlayer.muted) 
+	  {
+		videoPlayer.muted = false;
+		muteIcon.src = iconUnmuted;
+	  } 
+	  else 
+	  {
+		videoPlayer.muted = true;
+		muteIcon.src = iconMuted;
+	  }
+	});
+  }
+
+  buttons.forEach((btn, i) => btn.addEventListener("click", () => LoadVideo(i)));
+
+  videoPlayer.addEventListener("ended", () => {
+    currentIndex = (currentIndex + 1) % files.length;
+    LoadVideo(currentIndex);
+    videoPlayer.play().catch(err => console.log("Autoplay blocked:", err));
   });
+  
+});
 
 // PAUSE WHEN OFF SCREEN
 // https://stackoverflow.com/questions/63911723/using-intersection-observer-to-play-pause-video-in-reactjs
@@ -120,3 +136,24 @@ function checkVideosVisibility() {
     }
   });
 }
+
+
+function updateParallax() {
+  let speedMultiplier = -0.3;
+  let scrolled = window.pageYOffset;
+  let bg = document.querySelector('.parallax-bg');
+  let hero = document.querySelector('.hero');
+  
+  if (bg && hero) 
+  {
+    let heroHeight = hero.offsetHeight; 
+   
+    let newYPosition = heroHeight + (scrolled * speedMultiplier);
+    
+    bg.style.backgroundPosition = `center ${newYPosition}px`;
+  }
+}
+
+window.addEventListener('scroll', updateParallax);
+window.addEventListener('DOMContentLoaded', updateParallax);
+window.addEventListener('resize', updateParallax);
