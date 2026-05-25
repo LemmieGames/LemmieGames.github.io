@@ -6,7 +6,7 @@ const videoFiles = [
   ["Sand/SandVid0.mp4", "Sand/SandVid1.mp4", "Sand/SandVid4.mp4"],   
   ["PV/PVVid0.mp4", "PV/PVVid1.mp4", "PV/PVVid2.mp4", "PV/PVVid3.mp4"],   
   ["Saute/SauteVid0.mp4", "Saute/SauteVid1.mp4", "Saute/SauteVid2.mp4"], 
-  ["PK/PKVid0.mov", "PK/PKVid1.mov", "PK/PKVid2.mov", "PK/PKVid3.mov"],    
+  ["PK/PKVid0.mp4", "PK/PKVid1.mp4", "PK/PKVid2.mp4", "PK/PKVid3.mp4"],    
 ];
 
 const games = document.querySelectorAll(".game-inner");
