@@ -140,8 +140,8 @@ p {
     250px -100px,
     250px 100px,
     200px 100px,
-    200px 200px,
-    0px 200px,
+    200px 199px,
+    0px 199px,
     0px 0px,
     -50px 0px
   );
@@ -319,13 +319,6 @@ p {
   flex: 1;
   border-bottom: 3px dotted #bfb3a288;
   margin-left: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .project-divider {
-    width: 80%;
-    margin: 3rem auto;
-  }
 }
 
 .hanging-button img {
@@ -726,38 +719,43 @@ p {
 @media (max-width: 768px) {
   .game-inner,
   .game:nth-child(odd) .game-inner {
-    display: flex;
-    flex-direction: column; 
-    grid-template-columns: 1fr;     
+    display: grid; 
+    grid-template-columns: 1fr; 
+    
+    width: auto; 
   }
 
-.game-inner p,
+  .game-inner p,
   .game-inner img,
   .game-inner .video-wrapper,
-  .gif-controls {
-    grid-column: 1;
+  .gif-controls,
+  .game:nth-child(odd) .game-inner p,
+  .game:nth-child(odd) .game-inner img,
+  .game:nth-child(odd) .game-inner .video-wrapper,
+  .game:nth-child(odd) .gif-controls {
+    grid-column: 1 / -1; 
     width: 100%;
     max-width: 100%;
     justify-self: center;
   }
 
+  .game-inner p,
+  .game:nth-child(odd) .game-inner p {
+    grid-row: 1;
+  }
+
   .game-inner img,
-  .game-inner .video-wrapper {
+  .game-inner .video-wrapper,
+  .game:nth-child(odd) .game-inner img,
+  .game:nth-child(odd) .game-inner .video-wrapper {
     grid-row: 2; 
-    order: 2;
     height: auto;
   }
 
-  .gif-controls {
+  .gif-controls,
+  .game:nth-child(odd) .gif-controls {
     grid-row: 3;
-    order: 3;
     margin-top: 1rem;
-    justify-self: center;
-  }
-
-  .game-inner p {
-    grid-row: 1;
-    order: 1;
   }
 
   .game-topper img {
@@ -770,9 +768,15 @@ p {
   }
   
   .message-box {
-	   margin-top: 10vw;
+    margin-top: 10vw;
   }
   
   .two-columns {
-	  column-count: 1;
+    column-count: 1;
+  }
+  
+   .project-divider {
+    width: 80%;
+    margin: 3rem auto;
+  }
 }
