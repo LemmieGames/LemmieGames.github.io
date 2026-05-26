@@ -709,6 +709,8 @@ p {
   .game {
     margin-bottom: 1vh !important;
     overflow: visible !important; 
+	width: 95%;
+    margin: 0 auto 2rem;
   }
 
   .game-inner p,
@@ -728,6 +730,10 @@ p {
   .game-inner p,
   .game:nth-child(odd) .game-inner p {
     grid-row: 1;
+	width: auto;
+	padding-left: 6px;
+		padding-right: 6px;
+			padding-top: 6px;
   }
 
   .game-inner img,
@@ -841,7 +847,7 @@ p {
     
     width: 90%;
     max-width: 600px;
-    margin: 6rem auto 0 auto;
+    margin: 3.5rem auto 1rem auto;
     
     color: #bfb3a288;
     font-size: clamp(0.9rem, 1.2vw, 3rem);
