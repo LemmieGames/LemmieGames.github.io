@@ -731,6 +731,7 @@ p {
   .game:nth-child(odd) .game-inner p {
     grid-row: 1;
 	width: auto;
+	justify-self: left;
 	padding-left: 6px;
 		padding-right: 6px;
 			padding-top: 6px;
