@@ -1,5 +1,5 @@
 const videoFiles = [
-  ["ZG/PortfolioZG0.mp4", "ZG/PortfolioZG1.mp4", "ZG/PortfolioZG2.mp4", "ZG/PortfolioZG3.mp4"],  
+  ["ZG/ZGPort0.mp4", "ZG/ZGPort1.mp4", "ZG/ZGPort2.mp4", "ZG/ZGPort3.mp4"],  
   ["Drone/DroneVid0.mp4", "Drone/DroneVid1.mp4", "Drone/DroneVid2.mp4", "Drone/DroneVid3.mp4"],       
   ["Tank/TankVid0.mp4", "Tank/TankVid1.mp4", "Tank/TankVid2.mp4", "Tank/TankVid3.mp4"],        
   ["CA/CAVid0.mov", "CA/CAVid1.mov", "CA/CAVid2.mov", "CA/CAVid3.mov"],    
