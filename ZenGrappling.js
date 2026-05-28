@@ -2,7 +2,7 @@ const videoFiles = [
   ["ZG/ZGPort0.mp4", "ZG/ZGPort1.mp4", "ZG/ZGPort2.mp4", "ZG/ZGPort3.mp4"],  
   ["Drone/DroneVid0.mp4", "Drone/DroneVid1.mp4", "Drone/DroneVid2.mp4", "Drone/DroneVid3.mp4"],       
   ["Tank/TankVid0.mp4", "Tank/TankVid1.mp4", "Tank/TankVid2.mp4", "Tank/TankVid3.mp4"],        
-  ["CA/CAVid0.mov", "CA/CAVid1.mov", "CA/CAVid2.mov", "CA/CAVid3.mov"],    
+  ["CA/CAVid0.mp4", "CA/CAVid1.mp4", "CA/CAVid2.mp4", "CA/CAVid3.mp4"],    
   ["Sand/SandVid0.mp4", "Sand/SandVid1.mp4", "Sand/SandVid2.mp4"],   
   ["PV/PVVid0.mp4", "PV/PVVid1.mp4", "PV/PVVid2.mp4", "PV/PVVid3.mp4"],   
   ["Saute/SauteVid0.mp4", "Saute/SauteVid1.mp4", "Saute/SauteVid2.mp4"], 
