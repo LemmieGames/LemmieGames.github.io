@@ -35,6 +35,16 @@ games.forEach((section, sectionIndex) => {
 	
 	videoPlayer.play().catch(err => console.log("Autoplay blocked:", err));
   }
+  
+ if (videoPlayer) {
+    videoPlayer.addEventListener("click", () => {
+      if (videoPlayer.paused) {
+        videoPlayer.play().catch(err => console.log("Playback failed:", err));
+      } else {
+        videoPlayer.pause();
+      }
+    });
+  }
 
   if (muteBtn) 
   {
