@@ -32,6 +32,8 @@ games.forEach((section, sectionIndex) => {
     buttons[i].classList.add("pressed");
 
     currentIndex = i;
+	
+	videoPlayer.play().catch(err => console.log("Autoplay blocked:", err));
   }
 
   if (muteBtn) 

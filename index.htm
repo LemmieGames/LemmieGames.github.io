@@ -116,15 +116,16 @@
 				<div>
 					<p>
 				<span class="highlight"> Contributions:</span><br> 
-				A solo project, all shown artwork and code is my own. 
+				A solo project, all shown artwork and code is my own (Music and haiku sourced). 
 				<br><br>
 				<span class="highlight"> Context:</span><br> 
-Originally a university project developed in SFML C++, I recreated the project in Unity C# due to familiarity for faster development. Then, when Unity introduced the runtime fee I recreated the game in Godot C#, which is what you see now. Refactoring the codebase each time based on what I learned lead to smoother, more polished player movement.
+Originally a university project developed in SFML C++, I recreated the project in Unity C# due to familiarity for faster development. Then, when Unity introduced the runtime fee I recreated the game in Godot C#, which is what you see now. Refactoring the codebase each time based on what I learned from the previous iterations lead to smoother, more polished player movement.
 <br>
 The goal was to make fluid player movement that smoothly blends between different movement such as swinging, running, sliding, grappling, swimming, etc, within an interesting, dynamic world that the player can interact with.
 			<br><br>
 			<span class="highlight">Player state:</span><br> 
-The player character uses a state machine within a PlayerState class to determine how the player should move given the current context, such as switching to swimming controls if entering a water area, which gives me the control to manage state changes based on the current state. One thing I would change if I had to do it over is use classes to represent each state rather than an enum. This would mean I could further separate the movement logic of each state and the state change logic rather than having it in one class, improving readability and making the state system more scalable.
+The player character uses a class state machine, inherited from a base PlayerState class, to determine how the player should move given the current context. This gives me the control to manage state changes based on the current state's possible transitions. Originally, the state machine used enums, though containing all the movement and transition logic within a single class was not scalable enough for the project. <br>
+I believe that the finely tuned transition requirements between states, along with the large number of different animation frames, squash and stretch, and momentum-based movement lead to smooth looking and feeling movement that I am very satisfied with.
 			<br><br>
 <span class="highlight"> Shaders:</span><br> 
 Zen Grappling uses multiple shaders throughout to create more dynamic and interesting visuals. <br>
@@ -160,12 +161,12 @@ This allows me to create more intricate, realistic movement for NPCs, such as a 
      <div class="game-outer">
 	
 		<div class="game-inner">
-		 <p>An incremental game about collecting gems and blowing everything up, set in a procedurally generated destructable world. Explores GPU-based falling sand simulations with playable mechanics, developed in Godot C# for my honours project. <br><br>
+		 <p>An incremental game about collecting gems and blowing everything up, set in a procedurally generated destructable world. Explores GPU-based falling sand simulations with playable mechanics, developed in Godot C# for my university honours project. <br><br>
 			<span class="highlight"> Features:</span><br> 
 			• Compute shaders for falling sand and fluid simulations.<br>
 			• Interactable player character. <br> 
 			• Upgrade tree system with many visual shaders. <br>
-			• Impressively large explosions. <br>
+			• Incredibly large explosions. <br>
 			<button class="overlay-button" data-target="#overlay-drone">Learn more...</button>
 	  </p>
 
@@ -203,11 +204,15 @@ This allows me to create more intricate, realistic movement for NPCs, such as a 
 				<div>
 					<p>
 				<span class="highlight"> Contributions:</span><br> 
-				A solo project, all shown artwork and code is my own. 
+				A solo project, all shown artwork and code is my own (Music sourced). 
 				<br><br>
 				<span class="highlight"> Context:</span><br> 
 Final artefact for my university honours project, researching how falling sand simulations with a playable character (inspired by Noita) 
 perform at large scales on GPU architecture.
+<br>
+Honours Project Proposal and Execution Grade: A+
+<br>
+Honours Project Dissertation Grade: A+
 <br>
 Here is an abstract excerpt from my dissertation:
 <br> <br>
@@ -226,8 +231,8 @@ The bottleneck of a GPU-based simulation mainly depends on the workload (simulat
 
 <br>
 <span class="highlight"> Final thoughts:</span><br>
-Overall, I am very satisfied with the final result. Not only for the dissertation itself, but also the additional features that make it a polished, playable game, such as the upgrade tree.<br>
-To be honest, during my time at university, the parallel programming module and graphics module were some of my least favourites, which makes my decision to not follow one of the topics given by our lecturers and instead decide to make Dronescape a quite perplexing one. While there were many days where I would bang my head against the wall just to find 100 more ways it didn't work, I do not regret my decision. I was passionate about the concept, learnt a LOT over the course of the project, and I fully believe in the GPUs ability to create massively dynamic video game worlds that ignite the players curiosity and satisfaction.
+Overall, I am very satisfied with the final result. Not only for the honours itself, but also the additional features that make it a polished, playable game, such as the upgrade tree.<br>
+To be honest, during my time at university, the parallel programming module and graphics module were some of my least favourites; by the end of them I wasn't satisfied with how well I understood the topics. This made not choosing one of the lecturer provided topics and instead decide to create dronescape for my honours a risky decision, but I'm glad I did. GPGPU is not an easy undertaking and it certainly was a challenge, but I had the idea of large scale incremental falling sand (see also Sand Game on my portfolio) and was willing to do whatever it took to see the idea through. I am confident that the skills I learned over the course of developing dronescape will further the possibilities for great design ideas I can turn into reality in the future. Parallelisation and the GPU has huge potential for creating massively dynamic video game worlds that ignite the players curiosity, creativity, and satisfaction.
 			</p>
 				</div>
 				</div>
@@ -312,7 +317,7 @@ The powerups use inheritance to reuse common functionality such as cooldowns and
 One issue I ran into was that the game would hang for a frame when a bomb exploded, which was made worse when multiple bombs chained explosions. This was because I was duplicating the explosion texture so that the explosion shader didn't impact all instances within the scene, and then creating a new noise texture to ensure all the explosions looked unique. Doing this, especially creating the noise texture, caused the game to lag. The way I solved this was creating an explosion material pool. By creating a set number of explosion materials at the start, I could use a manager class to return unused materials and as explosions only lasted a short duration, they could be reused quickly. This stopped the need for generating new textures while still looking unique as they all are assigned a different noise texture from the start.
 <br><br>
 <span class="highlight">Juicy Walls:</span><br> 
-Though not a unique concept, the walls were created by creating a pixel art texture in blockbench. Then, using an existing normalmap, I sampled colours and manually created a normalmap version from my original texture. This makes the wall look significantly more interesting, not just flat, paired with an out bounce easing and ascending sound effects for creating them, the satisfaction of using the wall powerup increased dramatically.
+For the walls, I created a pixel art texture in blockbench. Then, using an existing normalmap, I sampled colours and manually created a normalmap version from my original texture. This makes the wall look significantly more interesting, not just flat, paired with an out bounce easing and ascending sound effects for creating them, the satisfaction of using the wall powerup increased dramatically.
 	<br><br>		
 			<span class="highlight">Portals:</span><br> 
 Each object that can teleport using a portal has an ITeleportable interface with a function for teleporting when it hits a portal. This may sound like overkill; to begin with the portal handled teleporting of all objects that hit it, but this quickly became too large of a class due to the surprising number of unique ways I needed to handle teleporting. The player should be sent out the exiting teleporter with enough speed to not still be touching it even if holding the other direction; bullets velocity need to be flipped depending on the difference in portals directions; the growth ray means that some objects are too big to fit in the portal, and objects like the punch or grapple need to keep track of how far they have travelled even when travelling through multiple portals. The grapple has a stack of portals travelled through and calculates the distance based on all the portals travelled through, while also creating a new Line2D for each one to still render the rope at each point. That way when it retracts it can retract back through each portal rather than just returning to the player.<br> 
@@ -391,7 +396,7 @@ Portals attached to walls can be enlarged when a growth ray hits the wall, and a
 				A solo project, all shown artwork and code is my own. 
 				<br><br>
 				<span class="highlight"> Context:</span><br> 
-A personal project currently being developed in Godot C#. I have identified overscoping and scopecreep as one of my weaknesses as a developer. My goal is to turn this project into a small game with strict considerations for scope, to publish on Steam. For this, I can also reuse and extend systems I have already created such as the player movement and dialogue systems from Zen Grappling.
+A personal project currently being developed in Godot C#. I have identified overscoping as one of my weaknesses as a developer. My goal is to turn this project into a small game with strict considerations for scope, to publish on Steam. For this, I can also reuse and extend systems I have already created such as the player movement and dialogue systems from Zen Grappling.
 			<br><br>
 			<span class="highlight">Dialogue System:</span><br> 
 Each NPC with dialogue in the world has a DialogueSpeaker script that contains their speaker ID, sound effect, pitch, talk speed, and a reference to their sprite to animate them. They add themselves to the DialogueSpeaker group on start so that when a dialogue is triggered, it can find the relevant speaker by ID in the group. <br>
@@ -486,14 +491,14 @@ As it's a rage game, while the player falls, the music becomes more distorted as
 A solo project, all shown artwork and code is my own.
 <br> <br> 
 <span class="highlight">Context:</span><br> 
-A personal project developed in Godot C#, inspired by the incremental genre and falling sand games, I wanted to combine the impressive visuals of falling sand with an incremental progression system. However, part of the enjoyment of incremental games is seeing the number scale exponentially bigger as you progress, which can quickly become an issue of performance with falling sand without careful optimisations. For that reason I have decided to take this idea forward for my university honours project; developing a falling sand simulation that makes use of GPGPU with compute shaders while in a game context by considering and minimising the data that needs to be passed between CPU and GPU to make it a playable game.<br> 
+A personal project developed in Godot C#, inspired by the incremental genre and falling sand games, I wanted to combine the impressive visuals of falling sand with an incremental progression system. However, part of the enjoyment of incremental games is seeing the number scale exponentially bigger as you progress, which can quickly become an issue of performance with falling sand without careful optimisations. For that reason I decided to take this idea forward for my university honours project, which you can see the result of in Dronescape.<br> 
 <br> <br> 
 <span class="highlight">Falling sand: </span><br> 
 There are two sprites in the scene, one for the structure and another one that starts empty for the falling sand. Clicking converts your click position into pixel coordinates and reduces saturation of the structure in a radius around the click position. Once the saturation of a pixel reaches zero, it is removed from the sprite and added to the sand sprite. All pixels in the sand sprite check if the pixel below is clear and moves down if so. If not, the pixel then checks diagonally down left or right and moves there instead, which causes the sand to pile into dunes. <br> 
 During development I realised that the order of processing the sprite makes a big impact on the way the sand falls. Checking from bottom to top is important to avoid sand getting stuck on top of other falling sand, and horizontal order changes the outcome too. Alternating between left right checks and switching the order every process step made the sand fall most realistically.
 <br> <br> 
 Other elements in the sandbox have similar simple interactions, liquids check left or right instead of diagonally, gasses act the same but reversed vertically (and added random left/right for extra floatiness). These material types are stored as an enum within a particle struct also containing: density, lifetime, and temperature. The sprite is a 2D array of these particle structs.<br> 
-I chose to hold the data for the particles in a struct rather than a class due to structs being a value type rather than reference, meaning it is contiguous in memory and looping over the grid of pixels becomes much more efficient due to less cache misses.
+I chose to hold the data for the particles in a struct rather than a class due to structs being a value type rather than reference, meaning it is contiguous in memory and looping over the grid of pixels becomes much more efficient due to less cache misses. I later learned that opting for a data oriented design approach would be even more efficient as storing all pixels individual characteristics (density, lifetime, etc) in separate arrays further reduces cache misses in parts of the code where only a few characteristics are read.
 <br> <br> 
 <span class="highlight">Optimisations:</span><br> 
 The first optimisation was to keep a list of active pixels to iterate over rather than checking the whole image, removing pixels from the list when they had nowhere to move and readding the ones above when removing pixels.
@@ -578,6 +583,17 @@ This also allowed me to parallelise the simulation as parallelising each pixel w
 				<span class="highlight">Context:</span><br> 
 A personal project developed in Unity C# and published on the Play Store (now delisted). My first game developed not following a specific tutorial, prior to University. It gave me a good insight into different aspects of game development, the artwork, music, localisation, setting up a store page, and actually releasing a finished game.
 			<br><br>
+			
+<span class="highlight">Reflections:</span><br> 
+As it was my first game, there are lots I would have done differently if I were to do it over. Firstly, the scope of the project was very large for a first game. When I started development, I went in with the intention of seeing how far I could get without a specific tutorial; I was sure that I wouldn't be able to create certain aspects... and then I did. This gave me the confidence to dive head first into things to figure them out when I'm unsure, something I still follow to this day (see Dronescape). Though, having much more experience now, I am better able to plan in advance to better manage my time. <br>
+<br>
+Penguin Voyage also taught me the importance of developing tools. Each level in the game (of which there are more than 100) was painstakingly designed, tweaked, and tested by hand. In hindsight, it would have been so much quicker to design a tool to automatically test and balance enemy levels. Again, a plan helps. <br><br>
+
+Though, one of the hardest lessons I learned from Penguin Voyage was that, much like the crew of penguins within the game, you can't do it alone. Game development is collaborative; the best ideas often come from iteration, bouncing ideas off of one another in a team, and getting feedback from players. Getting feedback for the games I have put so much time and effort into can be intimidating, but the gamejams I have since had the privilage of being a part of have taught me that it can be the most rewarding too. Even for solo-developed games, having the faults of your ideas being exposed is essential, being open to ideas changing and evolving is part of making a great game even if it can be difficult at times. Since Penguin Voyage, I have spent a lot more time getting feedback from players and developing games alongside my peers at university, and it has deepened my appreciation for game development and great games a whole lot.
+<br>
+
+Penguin Voyage will always hold a special significance as my first game.
+<br><br>
 <span class="highlight">Penguins:</span><br> 
 Penguin data that needs to persist across play sessions is stored in a class with their instances also having an ISavable interface, which is called for each object within the scene when the game needs to save or load. This allows for the game to call save on all objects that require it at once.
 <br><br>
