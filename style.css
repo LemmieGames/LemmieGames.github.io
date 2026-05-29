@@ -879,6 +879,7 @@ p {
   padding: 5%;
   overflow: auto;
   display: none;
+  overscroll-behavior: contain;
 }
 
 
