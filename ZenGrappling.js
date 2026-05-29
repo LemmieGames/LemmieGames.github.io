@@ -133,18 +133,36 @@ document.querySelectorAll(".overlay-button").forEach(button => {
 			document.querySelectorAll(".game-inner video").forEach(videoPlayer => {
 				videoPlayer.pause();       
 			});
+			
+			history.pushState({ overlayOpen: true, targetId: button.dataset.target }, "");
 		}
 	});
 });
 
+function closeActiveOverlay(overlayElement) {
+  if (!overlayElement) return;
+  overlayElement.style.display = 'none';
+  document.body.style.overflow = '';
+  checkVideosVisibility();
+}
+
 document.querySelectorAll('.overlay').forEach(overlay => {
   overlay.addEventListener('click', e => {
     if (e.target == overlay) { 
-      overlay.style.display = 'none';
-      document.body.style.overflow = '';
-	  checkVideosVisibility();
+      closeActiveOverlay(overlay);
+	  if (history.state && history.state.overlayOpen) {
+        history.back();
+      }
     }
   });
+});
+
+window.addEventListener('popstate', (event) => {
+  const visibleOverlay = document.querySelector('.overlay[style*="display: flex"]');
+  
+  if (visibleOverlay) {
+    closeActiveOverlay(visibleOverlay);
+  }
 });
 
 function checkVideosVisibility() {
