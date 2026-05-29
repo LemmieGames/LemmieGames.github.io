@@ -961,6 +961,9 @@ p {
   height: 100%;
   border-radius: 12px;
   padding: 10px;
+  
+  display: flex;
+  flex-direction: column;
 }
 
 .other-games-inner img {
@@ -968,7 +971,7 @@ p {
 	  width: 100%;
   height: auto;
   margin-top: -2.0rem;
-  margin-bottom: -1.5rem;
+  margin-bottom: -0.5rem;
 }
 
 .other-games-inner button {
@@ -977,12 +980,20 @@ p {
 	border: none;
 	color: #F0BB78;
 	text-align: center;
-	width: 100%;
-	font-size: clamp(1.5rem, 1.8vw, 3.5rem);
+	width: auto;
+	 font-size: clamp(1rem, 1.5vw, 1.5em);
+	text-decoration: underline;
 	margin-top: auto;
-	margin-top: 0px;
 	padding-top: 0px;
-	top: -20px;
+}
+
+.other-games-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+
 }
 
 .other-games-inner button:hover {
@@ -997,7 +1008,33 @@ p {
 	 margin-bottom: 0px;
 }
 
+.game-inner .overlay-link-btn,
+.game-inner .overlay-link-btn:visited,
+.other-games-inner .overlay-link-btn:visited,
+.other-games-inner .overlay-link-btn {
+  align-self: flex-end;
+  color: #F0BB78;
+  font-size: 1.5rem;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  user-select: none;
+  margin-top: 0.5rem;
+  transition: color 0.1s ease-in-out;
+  margin-left: 5%;
+  font-size: 1.0em;
+}
 
+.other-games-inner .overlay-link-btn:visited,
+.other-games-inner .overlay-link-btn {
+  font-size: clamp(1rem, 1.5vw, 1.5em);
+}
+
+.game-inner .overlay-link-btn:hover, 
+.other-games-inner .overlay-link-btn:hover {
+  color: #FFF0DC;
+  text-decoration: underline;
+}
 
 @media (max-width: 768px) {
 	
