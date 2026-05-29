@@ -77,8 +77,11 @@
 			<span class="highlight"> Features:</span><br> 
 			• Complex player movement (pulling, swinging, swimming, walljumping, sliding).<br>
 			• Screen wrap and room-based camera system. <br> 
-			• Dialogue systems and many shaders. <br>
-			• Springs, gliders, and many other movement based objects. <br>
+			• Dialogue systems, collectables. <br>
+			• Many visual shaders that interact with the player, such as swaying grass and tree silhouette. <br>
+			• Springs, gliders, bumpers, and many other movement based objects. <br>
+			• Objects that interact uniquely with the hook, such as the cog that rotates the world. <br>
+			• Ability to hold objects, some change player movement when held. <br>
 			<button class="overlay-button" data-target="#overlay-zg">Learn more...</button>
 	  </p>
 
@@ -166,6 +169,9 @@ This allows me to create more intricate, realistic movement for NPCs, such as a 
 			• Compute shaders for falling sand and fluid simulations.<br>
 			• Interactable player character. <br> 
 			• Upgrade tree system with many visual shaders. <br>
+			• Procedurally generated infinite world with different biomes and ores. <br>
+			• Compute shader for collecting particles. <br>
+			• Tutorial that waits for players inputs. <br>
 			• Incredibly large explosions. <br>
 			<button class="overlay-button" data-target="#overlay-drone">Learn more...</button>
 	  </p>
@@ -267,8 +273,11 @@ To be honest, during my time at university, the parallel programming module and 
 		 <span class="highlight"> Powerups include: </span><br> 
 		 • Movement: portals, grappling hook, dash.<br>
 		 • Attacks: suckerpunch, wall-spawning bullet, 
-		 bomb, bouncing bullet and mortar (arcing) bullet.<br><br>
+		 bomb, bouncing bullet, growth ray, shrink ray, and mortar (arcing) bullet.<br><br>
+		• System to swap out powerups, each with a unique cooldown.<br>
 		Powerups are designed with combinations in mind, allowing for creative expression when playing. <br>
+		• Wall spawning bullets hitting a bomb cause a wall explosion.<br>
+		• Grappling hooks can go through multiple portals.<br>
 	  <button class="overlay-button" data-target="#overlay-tt">Learn more...</button>
 	  </p>
 	  <div class="gif-controls">
@@ -352,10 +361,13 @@ Portals attached to walls can be enlarged when a growth ray hits the wall, and a
 		<div class="game-inner">
 		 <p>A 2D 'getting over it' style game with a bow, bounce on the bowstring and land on your arrows. <br><br>
 		<span class="highlight">Features:</span> <br>
+		 • Unique player movement with a bow that bounces the player when colliding with terrain. <br>
 		 • Custom keybind options that save across sessions. <br>
-		 • Dialogue system.<br>
-		 • Adaptive music system. <br>
-		 • Multiple interactable NPCs. <br>
+		 • Dialogue system with unique voices, talking speeds, and player options.<br>
+		 • Adaptive music system based on progression and player movement. <br>
+		 • Multiple interactable NPCs and objects that give hints and items. <br>
+		 • Multiple 'enemies' that interact with arrows and the player. <br>
+		 • Different 'levels' with unique art and interactable elements, such as wind, moving platforms, NPCs etc. <br>
 			<button class="overlay-button" data-target="#overlay-ca">Learn more...</button>
 	  </p>
 
@@ -450,8 +462,11 @@ As it's a rage game, while the player falls, the music becomes more distorted as
 		 <p>Incremental style game where you click to turn a structure to sand, 
 		 collect and buy upgrades to destroy structures faster. <br><br>
 		 <span class="highlight">Features: </span><br>
-		• CPU based sandbox with interacting elements.<br>
-		• Compute shaders for calculating large amounts of sand movements.<br>
+		• Miner NPCs that move along an image to mine the image high columns.<br>
+		• Collectors that move to the closest sand piles and collect them.<br>
+		• Upgrade system to buy more little guys, deal more damage, and collect or damage in a larger area with the cursor.<br>
+		• Construction system that builds on top of existing buildings with animations.<br>
+		• Testing sandbox featuring many different interacting elements.<br>
 		• Little guys that break, collect, and build. <br>
 	  <button class="overlay-button" data-target="#overlay-sg">Learn more...</button>
 	  </p>
@@ -538,10 +553,11 @@ This also allowed me to parallelise the simulation as parallelising each pixel w
 		<div class="game-inner">
 		 <p>A mobile roleplaying game made with Unity C# and published on the Playstore. <br>
 		 <span class="highlight">Features:</span> <br>
-			• An inventory of characters, each with unique stats, names, equipped items, and levels. <br>
+			• An inventory of characters, each with unique stats, names, equipped items, and levels that all save across play sessions. <br>
+			• Systems for showing the players specific penguins in the main menu ship scene, cutscenes, and battles.<br>
 			• Datetime based offline rewards.<br>
 			• Many special characters and enemies with unique attacks and status modifiers. <br>
-			• 10 cutscenes.<br>
+			• 10 cutscenes, achievements, daily rewards.<br>
 			• Optional reward ads. <br>
 	  <button class="overlay-button" data-target="#overlay-pv">Learn more...</button>
 	  </p>
@@ -624,8 +640,10 @@ The profession enum is also used in the main menu and in cutscenes to get the va
 		 <p>A turn-based RPG where you cook the creatures you have slain, crafted in a team of 7 using Unity C#. <br><br>
 		<span class="highlight">Features I created: </span><br>
 • Cooking simulation including chopping (implented using a package), marinating, skewering, frying. <br>
-• Hint system for cooking<br>
-• Score based cooking <br>
+• Cooking instructions that update with player actions.<br>
+• Polish, including the animation for moving ingredients to plate, background characters, initial customer pop-up, skewer, flipping kebabs etc.<br>
+• Hint system for cooking, including silhouettes of interactables. <br>
+• Cooking score based on players actions. <br>
 <button class="overlay-button" data-target="#overlay-ss">Learn more...</button>
 	  
 	  </p>
@@ -709,10 +727,13 @@ Another small thing we couldn't have known without playtesters is that the freed
 		 <p>A Mario Kart inspired racing game made in a team of 3 on PS5 devkits using a University in-house engine. <br>
 		 <br>
 		 <span class="highlight">Features I created:</span> <br>
-		 • Track system with interactable elements.<br>
+		 • Track system that allows for different layouts, visuals, and lap counts.<br>
+		 • Track terrain types: road, offroad, out-of-bounds with falling animation.<br>
+		 • Track objects: tree, wall obstacles, boostpad, itemboxes.<br>
+		 • Track design for majority of the tracks. <br>
 		 • Created and implemented models.<br>
 		 • Implemented sound effects and music. <br>
-		 • Results screen <br>
+		 • Animated results screen including positions and estimated times for NPCs that have not finished. <br>
 
 	  <button class="overlay-button" data-target="#overlay-pk">Learn more...</button>
 	  </p>
@@ -755,7 +776,7 @@ Another small thing we couldn't have known without playtesters is that the freed
 A university project developed on PS5 devkits using Abertay's in-house engine Skateboard (Entity component system C++).
 				<br><br>
 				<span class="highlight"> Lighting and Models:</span><br> 
-				Though not a programming specific issue, one of the big limitations of the engine is that it only supported one light. This was a pretty big issue as it meant that even with a directional light, more than half of the game would be in complete darkness. To get around this issue, I created all the models with the limitation in mind. By using the single light, we had as a directional light pointing straight down, we could illuminate the ground and top faces of the models. Then I created the models with slanted vertical surfaces so that they were always facing at least slightly upwards, causing them to be illuminated. This is why the walls are slightly slanted and the characters are slightly cone shaped, though not that noticeably.
+				Though not a programming specific issue, one of the big limitations of the engine is that it only supported one light. This was a pretty big issue as it meant that even with a directional light, more than half of the game would be in complete darkness. To get around this issue, I created all the models with the limitation in mind. Firstly, we used a directional light pointing straight down to illuminate the ground and top faces of the models. Then I created the models with slanted vertical surfaces so that they were always facing at least slightly upwards, causing them to be illuminated. This is why the walls are slightly slanted and the characters are slightly cone shaped, though not that noticeably.
 				<br><br>
 												<span class="highlight"> Track Generation:</span><br> 
 				Tracks are generated using a 2D array representing track tiles that are looped over and instantiated into the world. Track tiles contain lists of the objects within them, such as boostpads, itemboxes, and obstacles like trees. They also contain any colliders like offroad, pits, and walls. This allowed us to quickly create tiles that we could reuse for a variety of track layouts, easily enough that another developer could also help make layouts. Finally, tracks also contained a theme enum so that the tiles could be instantiated with different textures depending on theme, allowing for unique looking tracks while using the same system for generating them.
@@ -799,13 +820,18 @@ I created the procedurally generated sidescroller terrain, including different e
 Terrain scales to be harsher the further the player progresses, sand occurs more frequently, more obstacles, more of an incline and more severe differences in height, floating islands spawn more frequently but so do high value coins.
 <br> <br> 
 <span class="highlight">Terrain logic:</span><br> 
-The terrain is made using a Shape2D node as well as a Line2D for the outline texture. The height is determined by one dimensional noise with the X position passed in, multiplied and added to by a factor of the distance to make the terrain steeper and more varied the further the player progresses. The same thing is done for sand on another layer but with different values so I can control how often sand shows above the ground.
+The terrain is made using a Polygon2D node as well as a Line2D for the outline texture. The height is determined by one dimensional noise with the X position passed in, multiplied and added to by a factor of the distance to make the terrain steeper and more varied the further the player progresses. The same thing is done for sand on another layer but with different values so I can control how often sand shows above the ground.
 <br> 
 The terrain is broken up into two chunks, when the player is near the end of the second chunk the first chunk is moved to the right and updated with the new X position to give the illusion of a continuous ground. This also happens in reverse in case the player attempts to go backwards.
 <br> <br> 
 Floating islands are textured the same way but are generated by sampling points at regular intervals on a grid, those positions are passed into a two dimensional noise function and if it's above a certain threshold (that decreases with progress) then an island is created there.
 <br> 
-Islands are a Shape2D with noise applied to each point on the circle to make it look more random, their positions are offset based on their position in the grid so that the grid shape isn't visible and it further looks more random. Where there isn't an island, there is a chance to spawn a coin there instead.
+Islands are a Polygon2D with noise applied to each point on the circle to make it look more random, their positions are offset based on their position in the grid so that the grid shape isn't visible and it further looks more random. Where there isn't an island, there is a chance to spawn a coin there instead.
+			
+<br><br>
+<span class="highlight">Future development:</span><br> 
+After seeing the success of Golf For It at the play party as well as other players feedback, another developer and I have decided to continue development. While development is still early, we have brainstormed progression systems, additional mechanics, levels, and refinements to turn it into a full game. Currently, I am swapping out the terrain for a more robust and scalable system with destructable marching squares, so that the player can further interact with the terrain. I have parallelised the terrain loading based on camera position and camera zoom to handle fast player movements more smoothly, with a terrain chunk obstacle pool to reduce overhead from instantiating and destroying objects.
+			
 			</p>
 				</div>
 				</div>
@@ -867,7 +893,7 @@ The tile the player is standing on impacts their movement as well as the colour 
 				<h3>Planterrible</h3>
 				<img src="Planterrible.gif">
 				<p> • Gamejam team of 5 <br>
-				• Randomly generated maze <br>
+				• Randomly generated mazes <br>
 				• Enemy NPC logic <br>
 				</p>
 				<button class="overlay-button" data-target="#overlay-pt">Learn more...</button>
@@ -882,10 +908,10 @@ The tile the player is standing on impacts their movement as well as the colour 
 				<div>
 					<p>
 <span class="highlight">Context:</span><br> 
-Created using Unity C# in a team of 5 for a gamejam of the theme 'roots'.
+Created using Unity C# in a team of 5 for a gamejam of the theme 'roots'. The game procedurally generates mazes for a plant monster to navigate. The plant monster has limited length and can be expanded by eating enemies. Furthermore, the player can retract to regain length and change course.
 <br> <br> 
 <span class="highlight">Contributions:</span><br> 
-I made the random maze generator as well as the enemy NPC logic.
+I made the random maze generator as well as the enemy NPC spawning and movement logic.
 <br> <br> 
 <span class="highlight">Maze Generator:</span><br> 
 The maze is made up of a 2D array of rooms. Rooms are stored as a struct containing bools for if they have been visited during creation as well as which of the four walls are open.
