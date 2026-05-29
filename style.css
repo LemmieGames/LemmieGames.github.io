@@ -1239,5 +1239,7 @@ p {
     z-index: 9;
   }
   
-
+  .topper-image-wrapper > .character-sprite {
+   -webkit-tap-highlight-color: transparent;
+  }
 }
