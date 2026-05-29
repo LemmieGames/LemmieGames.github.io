@@ -129,7 +129,7 @@ document.querySelectorAll(".overlay-button").forEach(button => {
 		const target = document.querySelector(button.dataset.target);
 		if (target) {
 			target.style.display = 'flex';
-			document.body.overflow = 'hidden';
+			document.body.style.overflow = 'hidden';
 			document.querySelectorAll(".game-inner video").forEach(videoPlayer => {
 				videoPlayer.pause();       
 			});
