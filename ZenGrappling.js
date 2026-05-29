@@ -9,6 +9,17 @@ const videoFiles = [
   ["PK/PKVid0.mp4", "PK/PKVid1.mp4", "PK/PKVid2.mp4", "PK/PKVid3.mp4"],    
 ];
 
+const volumes = [
+  1,
+  0.4,
+  1,
+  1,
+  1,
+  1,
+  1,
+  0.2,
+];
+
 const games = document.querySelectorAll(".game-inner");
 games.forEach((section, sectionIndex) => {
   const videoPlayer = section.querySelector("video");
@@ -37,6 +48,7 @@ games.forEach((section, sectionIndex) => {
   }
   
  if (videoPlayer) {
+	videoPlayer.volume = volumes[sectionIndex];
     videoPlayer.addEventListener("click", () => {
       if (videoPlayer.paused) {
         videoPlayer.play().catch(err => console.log("Playback failed:", err));
